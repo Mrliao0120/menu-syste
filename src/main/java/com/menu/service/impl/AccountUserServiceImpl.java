@@ -72,6 +72,7 @@ public class AccountUserServiceImpl implements AccountUserService {
         return accountUser1;
     }
 
+
     @Override
     public void loginOut() {
         AccountUser accountUser1 = AccountUserUtils.getUserAccount();
