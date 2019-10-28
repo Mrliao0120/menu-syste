@@ -2,9 +2,11 @@ package com.menu.dao;
 
 import com.menu.bean.MenuAe;
 import com.menu.vo.QueryMenuAeRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface MenuAeMapper {
     int deleteByPrimaryKey(Long id);
 

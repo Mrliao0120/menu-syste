@@ -41,7 +41,7 @@
       #{menuFloor,jdbcType=VARCHAR}, #{menuWindow,jdbcType=VARCHAR}, #{canteenName,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.menu.bean.MenuAe" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.menu.bean.MenuAe" >
     insert into menu_ae
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -183,6 +183,9 @@
     where is_delete=0
     <if test="menuName!=null">
         AND  menu_name  LIKE concat( '%',#{menuName},'%')
+    </if>
+    <if test="createUserId!=null">
+      AND  create_user_id=#{createUserId}
     </if>
   </select>
 </mapper>

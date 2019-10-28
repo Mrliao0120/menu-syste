@@ -26,7 +26,10 @@ public class MenuEvaluate implements Serializable {
     private Date gmtModified;
     /**回复类型 1普通 2商家**/
     private Integer menuType;
+    /**菜品ID**/
+    private Long menuId;
 
     private static final long serialVersionUID = 1L;
+
 
 }

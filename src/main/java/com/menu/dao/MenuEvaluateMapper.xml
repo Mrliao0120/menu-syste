@@ -5,17 +5,18 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="menu_evaluate" property="menuEvaluate" jdbcType="VARCHAR" />
     <result column="menu_evaluate_score" property="menuEvaluateScore" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="menu_evaluate_id" property="menuEvaluateId" jdbcType="BIGINT" />
     <result column="is_root_reply" property="isRootReply" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
     <result column="menu_type" property="menuType" jdbcType="INTEGER" />
+    <result column="menu_id" property="menuId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, menu_evaluate, menu_evaluate_score, user_id, menu_evaluate_id, is_root_reply, 
-    is_delete, gmt_create, gmt_modified, menu_type
+    is_delete, gmt_create, gmt_modified, menu_type, menu_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -31,11 +32,11 @@
     insert into menu_evaluate (id, menu_evaluate, menu_evaluate_score, 
       user_id, menu_evaluate_id, is_root_reply, 
       is_delete, gmt_create, gmt_modified, 
-      menu_type)
+      menu_type, menu_id)
     values (#{id,jdbcType=BIGINT}, #{menuEvaluate,jdbcType=VARCHAR}, #{menuEvaluateScore,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{menuEvaluateId,jdbcType=BIGINT}, #{isRootReply,jdbcType=INTEGER}, 
+      #{userId,jdbcType=BIGINT}, #{menuEvaluateId,jdbcType=BIGINT}, #{isRootReply,jdbcType=INTEGER}, 
       #{isDelete,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{menuType,jdbcType=INTEGER})
+      #{menuType,jdbcType=INTEGER}, #{menuId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.menu.bean.MenuEvaluate" >
     insert into menu_evaluate
@@ -70,6 +71,9 @@
       <if test="menuType != null" >
         menu_type,
       </if>
+      <if test="menuId != null" >
+        menu_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -82,7 +86,7 @@
         #{menuEvaluateScore,jdbcType=INTEGER},
       </if>
       <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="menuEvaluateId != null" >
         #{menuEvaluateId,jdbcType=BIGINT},
@@ -102,6 +106,9 @@
       <if test="menuType != null" >
         #{menuType,jdbcType=INTEGER},
       </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.menu.bean.MenuEvaluate" >
@@ -114,7 +121,7 @@
         menu_evaluate_score = #{menuEvaluateScore,jdbcType=INTEGER},
       </if>
       <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="menuEvaluateId != null" >
         menu_evaluate_id = #{menuEvaluateId,jdbcType=BIGINT},
@@ -134,6 +141,9 @@
       <if test="menuType != null" >
         menu_type = #{menuType,jdbcType=INTEGER},
       </if>
+      <if test="menuId != null" >
+        menu_id = #{menuId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -141,13 +151,14 @@
     update menu_evaluate
     set menu_evaluate = #{menuEvaluate,jdbcType=VARCHAR},
       menu_evaluate_score = #{menuEvaluateScore,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=BIGINT},
       menu_evaluate_id = #{menuEvaluateId,jdbcType=BIGINT},
       is_root_reply = #{isRootReply,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      menu_type = #{menuType,jdbcType=INTEGER}
+      menu_type = #{menuType,jdbcType=INTEGER},
+      menu_id = #{menuId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -20,4 +20,6 @@ public class QueryMenuAeRequest extends AbstractPageRequest {
    private   String  menuName;
 
 
+   private Long  createUserId;
+
 }

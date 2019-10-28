@@ -22,4 +22,10 @@ public interface MenuAeService {
 
 
 
+
+        ResultData<PageInfo<MenuAe>>  queryByBackGroundCondition(QueryMenuAeRequest queryMenuAeRequest);
+
+        void  updateMenuAe(MenuAe menuAe);
+
+        MenuAe insertMenuAe(MenuAe menuAe);
 }

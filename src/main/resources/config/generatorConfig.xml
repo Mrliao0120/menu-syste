@@ -48,10 +48,10 @@
    -->
   <!--  <table tableName="account_user" domainObjectName="AccountUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
     <table tableName="user_account" domainObjectName="UserAccount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+<table tableName="menu_ae" domainObjectName="MenuAe" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
 
 -->
-    <table tableName="menu_evaluate" domainObjectName="MenuEvaluate" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
-    <table tableName="menu_ae" domainObjectName="MenuAe" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
-
+   <!-- <table tableName="menu_evaluate" domainObjectName="MenuEvaluate" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+-->
   </context>
 </generatorConfiguration>
