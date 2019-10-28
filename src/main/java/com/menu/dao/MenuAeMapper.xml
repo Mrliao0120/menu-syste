@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.menu.dao.MenuAeMapper" >
+  <resultMap id="BaseResultMap" type="com.menu.bean.MenuAe" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_price" property="menuPrice" jdbcType="DECIMAL" />
+    <result column="menu_image" property="menuImage" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="menu_text" property="menuText" jdbcType="VARCHAR" />
+    <result column="menu_floor" property="menuFloor" jdbcType="VARCHAR" />
+    <result column="menu_window" property="menuWindow" jdbcType="VARCHAR" />
+    <result column="canteen_name" property="canteenName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, menu_name, menu_price, menu_image, create_user_id, is_delete, gmt_create, gmt_modified, 
+    menu_text, menu_floor, menu_window, canteen_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from menu_ae
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from menu_ae
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.menu.bean.MenuAe" >
+    insert into menu_ae (id, menu_name, menu_price, 
+      menu_image, create_user_id, is_delete, 
+      gmt_create, gmt_modified, menu_text, 
+      menu_floor, menu_window, canteen_name
+      )
+    values (#{id,jdbcType=BIGINT}, #{menuName,jdbcType=VARCHAR}, #{menuPrice,jdbcType=DECIMAL}, 
+      #{menuImage,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{isDelete,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{menuText,jdbcType=VARCHAR}, 
+      #{menuFloor,jdbcType=VARCHAR}, #{menuWindow,jdbcType=VARCHAR}, #{canteenName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.menu.bean.MenuAe" >
+    insert into menu_ae
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuPrice != null" >
+        menu_price,
+      </if>
+      <if test="menuImage != null" >
+        menu_image,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+      <if test="menuText != null" >
+        menu_text,
+      </if>
+      <if test="menuFloor != null" >
+        menu_floor,
+      </if>
+      <if test="menuWindow != null" >
+        menu_window,
+      </if>
+      <if test="canteenName != null" >
+        canteen_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPrice != null" >
+        #{menuPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="menuImage != null" >
+        #{menuImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="menuText != null" >
+        #{menuText,jdbcType=VARCHAR},
+      </if>
+      <if test="menuFloor != null" >
+        #{menuFloor,jdbcType=VARCHAR},
+      </if>
+      <if test="menuWindow != null" >
+        #{menuWindow,jdbcType=VARCHAR},
+      </if>
+      <if test="canteenName != null" >
+        #{canteenName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.menu.bean.MenuAe" >
+    update menu_ae
+    <set >
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPrice != null" >
+        menu_price = #{menuPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="menuImage != null" >
+        menu_image = #{menuImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="menuText != null" >
+        menu_text = #{menuText,jdbcType=VARCHAR},
+      </if>
+      <if test="menuFloor != null" >
+        menu_floor = #{menuFloor,jdbcType=VARCHAR},
+      </if>
+      <if test="menuWindow != null" >
+        menu_window = #{menuWindow,jdbcType=VARCHAR},
+      </if>
+      <if test="canteenName != null" >
+        canteen_name = #{canteenName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.menu.bean.MenuAe" >
+    update menu_ae
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_price = #{menuPrice,jdbcType=DECIMAL},
+      menu_image = #{menuImage,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      menu_text = #{menuText,jdbcType=VARCHAR},
+      menu_floor = #{menuFloor,jdbcType=VARCHAR},
+      menu_window = #{menuWindow,jdbcType=VARCHAR},
+      canteen_name = #{canteenName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
