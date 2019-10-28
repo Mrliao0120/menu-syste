@@ -4,6 +4,7 @@ import com.menu.bean.AccountUser;
 import com.menu.bean.UserAccount;
 import com.menu.dao.UserAccountMapper;
 import com.menu.enums.SystemEnum;
+import com.menu.enums.UserLockEnum;
 import com.menu.exeception.ServletException;
 import com.menu.service.UserAccountService;
 import com.menu.util.AccountTokenUtils;
@@ -15,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * @ProjectName menu-system
@@ -50,6 +52,8 @@ public class UserAccountServiceImpl implements UserAccountService {
         //密码加密
         String s = MD5Utils.md5Encryption(salt, userAccount.getPassword());
         userAccount.setPassword(s);
+        userAccount.setGmtCreate(new Date());
+        userAccount.setIsDelete(0);
         userAccountMapper.insertSelective(userAccount);
         String token = userAccountUtils.setToken(userAccount);
         httpServletResponse.setHeader("token",token);
@@ -66,6 +70,10 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (loginUserInfo==null){
             throw new ServletException(SystemEnum.ACCOUNT_ALREADY_EXISTS.getCode(),
                     SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getMsg());
+        }
+        if (userAccount.getIsLock()==1){
+            throw new ServletException(UserLockEnum.ACCOUNT_LOCKED.getCode(),
+                    UserLockEnum.ACCOUNT_LOCKED.getMsg());
         }
         String s = MD5Utils.md5Encryption(salt, userAccount.getPassword());
         //密码验证

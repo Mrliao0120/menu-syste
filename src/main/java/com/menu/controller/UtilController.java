@@ -1,6 +1,7 @@
 package com.menu.controller;
 
 import com.aliyun.oss.common.utils.DateUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,8 @@ import java.time.Instant;
 @RequestMapping(value = "/util")
 public class UtilController {
 
-
+    @Value("${upload.file.path}")
+    private String  upload;
     /**
      * 文件上传
      * @param file
@@ -37,7 +39,7 @@ public class UtilController {
         long fileTime = System.currentTimeMillis();
         try {
             //所在文件夹
-            String path="/upload/"+fileTime+"/";
+            String path=upload+fileTime+"/";
             //文件全路径
             String filte=path+fileTime+file.getOriginalFilename();
             File newFile=new File(filte);

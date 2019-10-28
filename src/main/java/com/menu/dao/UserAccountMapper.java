@@ -1,6 +1,6 @@
 package com.menu.dao;
 
-import com.menu.bean.AccountUser;
+
 import com.menu.bean.UserAccount;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

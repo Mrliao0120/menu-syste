@@ -2,6 +2,8 @@ package com.menu.service;
 
 import com.menu.bean.AccountUser;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @ProjectName menu-system
  * @Author LHB
@@ -14,5 +16,13 @@ public interface AccountUserService {
 
 
 
-    void  insertAccountUser(AccountUser accountUser);
+    AccountUser  insertAccountUser(AccountUser accountUser, HttpServletResponse httpServletResponse);
+
+
+    AccountUser  login(AccountUser accountUser, HttpServletResponse httpServletResponse);
+
+    void  loginOut();
+
+    void   deleteUser(Long id);
+
 }

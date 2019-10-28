@@ -174,4 +174,15 @@
       canteen_name = #{canteenName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="queryByPageAndCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu_ae
+    where is_delete=0
+    <if test="menuName!=null">
+        AND  menu_name  LIKE concat( '%',#{menuName},'%')
+    </if>
+  </select>
 </mapper>

@@ -17,6 +17,7 @@ public enum SystemEnum {
     INCORRECT_ACCOUNT_OR_PASSWORD(3335,"账号或者密码错误"),
     ACCOUNT_ALREADY_NO_EXISTS(3332,"账号不存在"),
     THE_PARAMETER_IS_INCORRECT(4000,"必填信息为空"),
+    PERMISSION_IS_TOO_LOW(4001,"权限过低"),
     THE_RESULT_IS_EMPTY(5000,"The result is empty"),
     SYSTEM_ERROR(9999,"系统未知异常");
 

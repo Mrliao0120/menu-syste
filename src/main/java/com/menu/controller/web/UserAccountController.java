@@ -34,8 +34,8 @@ public class UserAccountController {
      */
     @RequestMapping(value = "/userRegistered")
     public ResultData  userRegistered(@RequestBody UserAccount userAccount, HttpServletResponse httpServletResponse){
-         userAccountService.insertUserAccount(userAccount, httpServletResponse);
-        return null;
+        ResultData<UserAccount> userAccountResultData = userAccountService.insertUserAccount(userAccount, httpServletResponse);
+        return userAccountResultData;
     }
 
     /**

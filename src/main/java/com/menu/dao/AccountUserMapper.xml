@@ -35,7 +35,7 @@
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{systemLevel,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.menu.bean.AccountUser" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.menu.bean.AccountUser" >
     insert into account_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -142,6 +142,6 @@
     select
     <include refid="Base_Column_List" />
     from account_user
-    where username=#{userName}  limit 1
+    where username=#{userName} and is_delete=0  limit 1
   </select>
 </mapper>

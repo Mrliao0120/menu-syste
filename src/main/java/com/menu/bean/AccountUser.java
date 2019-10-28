@@ -1,6 +1,9 @@
 package com.menu.bean;
 
+import com.menu.enums.SystemEnum;
+import com.menu.exeception.ServletException;
 import lombok.Data;
+
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,5 +31,25 @@ public class AccountUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
+
+    public void  checkParameter(AccountUser accountUser){
+        if (accountUser==null||accountUser.getUsername()==null||accountUser.getPassword()==null
+                ||accountUser.getUsername()==""||accountUser.getPassword()==""||accountUser.getSystemLevel()==null){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),
+                    SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+
+    }
+
+
+    public void  checkLoginParameter(AccountUser accountUser){
+        if (accountUser==null||accountUser.getUsername()==null||accountUser.getPassword()==null
+                ||accountUser.getUsername()==""||accountUser.getPassword()==""){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),
+                    SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+
+    }
 
 }
