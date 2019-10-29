@@ -6,6 +6,7 @@ import com.menu.enums.UserLockEnum;
 import com.menu.exeception.ServletException;
 import com.menu.service.AccountUserService;
 import com.menu.util.AccountUserUtils;
+import com.menu.util.MD5Utils;
 import com.menu.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -81,6 +82,31 @@ public class AccountUserBackgroundController {
         return new ResultData();
     }
 
+
+    /**
+     * 删除用户 弱验证
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/updatePassWord")
+    public ResultData deleteUser(@RequestParam(value = "passWord",name = "passWord",required = true) String passWord,
+                                 @RequestParam(value = "newPassWord",name = "newPassWord",required = true) String newPassWord){
+        AccountUser accountUser1 = AccountUserUtils.getUserAccount();
+        if (accountUser1==null){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),
+                    SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+        String s = MD5Utils.md5Encryption("backgroundMenu", passWord);
+        //密码验证
+        if (!accountUser1.getPassword().equals(s)){
+            throw new ServletException(SystemEnum.WRONG_PASSWORD.getCode(),
+                    SystemEnum.WRONG_PASSWORD.getMsg());
+        }
+        String s2 = MD5Utils.md5Encryption("backgroundMenu", newPassWord);
+        accountUser1.setPassword(s2);
+        accountUserService.updateAccount(accountUser1);
+        return new ResultData();
+    }
 
     /**
      * 用户登出

@@ -90,7 +90,15 @@ public class AccountUserServiceImpl implements AccountUserService {
         accountUserMapper.updateByPrimaryKeySelective(accountUser);
     }
 
+    @Override
+    public void updateAccount(AccountUser accountUser) {
+        AccountUser accountUser1 = accountUserMapper.selectByPrimaryKey(accountUser.getId());
+        if (accountUser1!=null){
+            accountUser1.setPassword(accountUser.getPassword());
+            accountUserMapper.updateByPrimaryKeySelective(accountUser1);
 
+        }
+    }
 
 
 }

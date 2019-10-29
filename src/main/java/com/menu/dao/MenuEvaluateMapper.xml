@@ -161,4 +161,15 @@
       menu_id = #{menuId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="queryPageByCondition" resultMap="BaseResultMap">
+    select
+    m2.*
+    from menu_evaluate as m2   LEFT JOIN  menu_ae  as m1  ON  m2.menu_id=m1.id
+    where m2.is_delete=0 AND m1.is_delete=0 AND m1.create_user_id=#{createUserId}
+    <if test="menuName!=null">
+        AND m1.menu_name    LIKE concat( '%',#{menuName},'%')
+    </if>
+  </select>
 </mapper>

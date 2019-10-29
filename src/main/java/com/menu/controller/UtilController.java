@@ -72,6 +72,9 @@ public class UtilController {
      */
     @RequestMapping(value = "/queryLocalHostImage")
     public void  queryLocalHostImage(HttpServletResponse response,@RequestParam(value = "pathName",required=true) String pathName){
+        if(pathName==null||pathName==""){
+            return;
+        }
         File imgFile = new File(pathName);
         FileInputStream fin = null;
         OutputStream output = null;

@@ -201,4 +201,14 @@
       AND  create_user_id=#{createUserId}
     </if>
   </select>
+
+  <select id="queryByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu_ae
+    where id IN
+    <foreach collection="asList" separator="," item="item" open="(" close=")">
+      #{item}
+  </foreach>
+  </select>
 </mapper>

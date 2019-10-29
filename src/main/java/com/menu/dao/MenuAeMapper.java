@@ -2,6 +2,7 @@ package com.menu.dao;
 
 import com.menu.bean.MenuAe;
 import com.menu.vo.QueryMenuAeRequest;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,4 +26,7 @@ public interface MenuAeMapper {
 
 
     List<MenuAe>  queryByBackgroundPageAndCondition(QueryMenuAeRequest queryMenuAeRequest);
+
+
+    List<MenuAe>  queryByIds(@Param("asList")List<Long> ids);
 }
