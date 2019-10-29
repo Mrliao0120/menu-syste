@@ -2,6 +2,7 @@ package com.menu.service;
 
 import com.github.pagehelper.PageInfo;
 import com.menu.util.ResultData;
+import com.menu.vo.QueryMenuEvaluateDetailVO;
 import com.menu.vo.QueryMenuEvaluateRequest;
 import com.menu.vo.QueryMenuEvaluateVO;
 
@@ -18,6 +19,13 @@ public interface MenuEvaluateService {
 
     //分页查询
     ResultData<PageInfo<QueryMenuEvaluateVO>>  queryPageByCondition(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
+
+    //查看回复详情
+    ResultData<QueryMenuEvaluateDetailVO>   queryMenuEvaluateDetail(Long  id);
+
+
+
+    void  addReturnMenuEvaluate(String textEvaluate,Long id);
 
 
 }

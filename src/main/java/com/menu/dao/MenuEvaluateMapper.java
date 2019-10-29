@@ -22,4 +22,6 @@ public interface MenuEvaluateMapper {
 
 
     List<MenuEvaluate>  queryPageByCondition(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
+
+    MenuEvaluate selectByParentKey(Long id);
 }

@@ -13,7 +13,7 @@ public class MenuEvaluate implements Serializable {
     /**菜品分数**/
     private Integer menuEvaluateScore;
     /**创建 用户**/
-    private Integer userId;
+    private Long userId;
     /**菜品评论父id**/
     private Long menuEvaluateId;
     /**是否是管路员回复**/
