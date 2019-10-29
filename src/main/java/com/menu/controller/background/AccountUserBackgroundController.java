@@ -8,6 +8,7 @@ import com.menu.service.AccountUserService;
 import com.menu.util.AccountUserUtils;
 import com.menu.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,8 @@ public class AccountUserBackgroundController {
 
     @Autowired
     AccountUserService accountUserService;
-
+    @Autowired
+    RedisTemplate redisTemplate;
 
     /**
      * 添加用户
@@ -90,5 +92,29 @@ public class AccountUserBackgroundController {
         accountUserService.loginOut();
         return new ResultData();
     }
+
+    /**
+     * 用户登出
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/queryToken")
+    public ResultData queryToken(HttpServletRequest httpServletRequest){
+        ResultData resultData=new ResultData();
+        String backgroundToken = httpServletRequest.getHeader("BackgroundToken");
+        if (backgroundToken!=null){
+            Object o = redisTemplate.opsForValue().get("BACKGROUND:ACCOUNT:TOKEN:" + backgroundToken);
+            if (o!=null){
+                resultData.setData(o);
+                resultData.setCode(200);
+            }else {
+                resultData.setCode(502);
+            }
+        }else {
+            resultData.setCode(502);
+        }
+        return resultData;
+    }
+
 
 }

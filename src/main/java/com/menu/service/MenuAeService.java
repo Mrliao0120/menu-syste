@@ -28,4 +28,7 @@ public interface MenuAeService {
         void  updateMenuAe(MenuAe menuAe);
 
         MenuAe insertMenuAe(MenuAe menuAe);
+
+
+        MenuAe queryById(Long id);
 }

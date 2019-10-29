@@ -22,4 +22,6 @@ public class QueryMenuAeRequest extends AbstractPageRequest {
 
    private Long  createUserId;
 
+
+
 }

@@ -188,4 +188,17 @@
       AND  create_user_id=#{createUserId}
     </if>
   </select>
+
+  <select id="queryByBackgroundPageAndCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu_ae
+    where 1=1
+    <if test="menuName!=null">
+      AND  menu_name  LIKE concat( '%',#{menuName},'%')
+    </if>
+    <if test="createUserId!=null">
+      AND  create_user_id=#{createUserId}
+    </if>
+  </select>
 </mapper>

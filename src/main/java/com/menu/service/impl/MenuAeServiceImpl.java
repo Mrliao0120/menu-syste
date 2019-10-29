@@ -57,7 +57,7 @@ public class MenuAeServiceImpl implements MenuAeService {
             PageHelper.orderBy("gmt_create desc");
         }
         queryMenuAeRequest.setCreateUserId(userAccount.getId());
-        List<MenuAe> menuAes = menuAeMapper.queryByPageAndCondition(queryMenuAeRequest);
+        List<MenuAe> menuAes = menuAeMapper.queryByBackgroundPageAndCondition(queryMenuAeRequest);
         PageInfo info = new PageInfo<>(objects.getResult());
         info.setList(menuAes);
         ResultData<PageInfo<MenuAe>> resultData=new ResultData<>();
@@ -87,6 +87,12 @@ public class MenuAeServiceImpl implements MenuAeService {
         menuAe.setIsDelete(0);
         menuAe.setCreateUserId(userAccount.getId());
         menuAeMapper.insertSelective(menuAe);
+        return menuAe;
+    }
+
+    @Override
+    public MenuAe queryById(Long id) {
+        MenuAe menuAe = menuAeMapper.selectByPrimaryKey(id);
         return menuAe;
     }
 }

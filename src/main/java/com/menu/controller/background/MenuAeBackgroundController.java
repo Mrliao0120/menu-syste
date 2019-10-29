@@ -6,10 +6,7 @@ import com.menu.service.MenuAeService;
 import com.menu.util.ResultData;
 import com.menu.vo.QueryMenuAeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author  菜品
@@ -26,7 +23,7 @@ public class MenuAeBackgroundController {
     MenuAeService menuAeService;
 
     /**
-     * 查询菜品
+     * 查询分页菜品
      * @param queryMenuAeRequest
      * @return
      */
@@ -36,6 +33,18 @@ public class MenuAeBackgroundController {
         return resultData;
     }
 
+    /**
+     * 查询菜品
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/queryById")
+    public ResultData<MenuAe>  queryById(@RequestParam(value = "id",name = "id",required = true)Long id){
+        ResultData<MenuAe> resultData=new ResultData<>();
+        MenuAe menuAe = menuAeService.queryById(id);
+        resultData.setData(menuAe);
+        return resultData;
+    }
 
     /**
      * 更新

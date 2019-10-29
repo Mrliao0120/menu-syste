@@ -22,4 +22,7 @@ public interface MenuAeMapper {
 
 
     List<MenuAe>  queryByPageAndCondition(QueryMenuAeRequest queryMenuAeRequest);
+
+
+    List<MenuAe>  queryByBackgroundPageAndCondition(QueryMenuAeRequest queryMenuAeRequest);
 }

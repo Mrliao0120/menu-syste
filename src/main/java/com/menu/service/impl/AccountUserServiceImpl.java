@@ -68,6 +68,7 @@ public class AccountUserServiceImpl implements AccountUserService {
         }
         accountUserUtils.deleteToken(accountUser1);
         String token = accountUserUtils.setToken(accountUser1);
+        httpServletResponse.setHeader("Access-Control-Expose-Headers", "BackgroundToken");
         httpServletResponse.setHeader("BackgroundToken",token);
         return accountUser1;
     }
