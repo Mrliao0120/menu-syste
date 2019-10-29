@@ -135,4 +135,9 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
 
 
     }
+
+    @Override
+    public void updateMenuEvaluate(MenuEvaluate evaluate) {
+        menuEvaluateMapper.updateByPrimaryKeySelective(evaluate);
+    }
 }

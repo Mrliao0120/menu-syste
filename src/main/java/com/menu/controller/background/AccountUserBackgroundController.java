@@ -84,26 +84,32 @@ public class AccountUserBackgroundController {
 
 
     /**
-     * 删除用户 弱验证
+     * 更新密码账户信息
      * @param
      * @return
      */
     @PostMapping(value = "/updatePassWord")
-    public ResultData deleteUser(@RequestParam(value = "passWord",name = "passWord",required = true) String passWord,
-                                 @RequestParam(value = "newPassWord",name = "newPassWord",required = true) String newPassWord){
+    public ResultData deleteUser(@RequestParam(value = "passWord",name = "passWord",required = false) String passWord,
+                                 @RequestParam(value = "newPassWord",name = "newPassWord",required = false) String newPassWord,
+                                 @RequestParam(value = "nickName",name = "nickName",required = false) String nickName){
         AccountUser accountUser1 = AccountUserUtils.getUserAccount();
         if (accountUser1==null){
             throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),
                     SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
         }
-        String s = MD5Utils.md5Encryption("backgroundMenu", passWord);
-        //密码验证
-        if (!accountUser1.getPassword().equals(s)){
-            throw new ServletException(SystemEnum.WRONG_PASSWORD.getCode(),
-                    SystemEnum.WRONG_PASSWORD.getMsg());
+        if (newPassWord!=null&&newPassWord!=""){
+            String s = MD5Utils.md5Encryption("backgroundMenu", passWord);
+            //密码验证
+            if (!accountUser1.getPassword().equals(s)){
+                throw new ServletException(SystemEnum.WRONG_PASSWORD.getCode(),
+                        SystemEnum.WRONG_PASSWORD.getMsg());
+            }
+            String s2 = MD5Utils.md5Encryption("backgroundMenu", newPassWord);
+            accountUser1.setPassword(s2);
         }
-        String s2 = MD5Utils.md5Encryption("backgroundMenu", newPassWord);
-        accountUser1.setPassword(s2);
+        if (nickName!=null&&nickName!=""){
+            accountUser1.setNickname(nickName);
+        }
         accountUserService.updateAccount(accountUser1);
         return new ResultData();
     }

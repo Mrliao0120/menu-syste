@@ -1,6 +1,7 @@
 package com.menu.service;
 
 import com.github.pagehelper.PageInfo;
+import com.menu.bean.MenuEvaluate;
 import com.menu.util.ResultData;
 import com.menu.vo.QueryMenuEvaluateDetailVO;
 import com.menu.vo.QueryMenuEvaluateRequest;
@@ -27,5 +28,7 @@ public interface MenuEvaluateService {
 
     void  addReturnMenuEvaluate(String textEvaluate,Long id);
 
+
+    void   updateMenuEvaluate(MenuEvaluate evaluate);
 
 }

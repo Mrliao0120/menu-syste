@@ -1,7 +1,12 @@
 package com.menu.controller.background;
 
 import com.github.pagehelper.PageInfo;
+import com.menu.bean.AccountUser;
+import com.menu.bean.MenuEvaluate;
+import com.menu.enums.SystemEnum;
+import com.menu.exeception.ServletException;
 import com.menu.service.MenuEvaluateService;
+import com.menu.util.AccountUserUtils;
 import com.menu.util.ResultData;
 import com.menu.vo.QueryMenuEvaluateDetailVO;
 import com.menu.vo.QueryMenuEvaluateRequest;
@@ -50,7 +55,7 @@ public class MenuEvaluateBackgroundController {
     }
 
     /**
-     * 查看评论详情
+     * 新增回复
      * @param id
      * @return
      */
@@ -59,6 +64,22 @@ public class MenuEvaluateBackgroundController {
                                                                             @RequestParam(value = "id",required = true)Long id){
         menuEvaluateService.addReturnMenuEvaluate(textEvaluate,id);
         return new ResultData();
+    }
+
+    /**
+     * 更新
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/updateMenuEvaluate")
+    public  ResultData<PageInfo<QueryMenuEvaluateVO>>   updateMenuEvaluate(@RequestBody MenuEvaluate menuEvaluate){
+        AccountUser accountUser1 = AccountUserUtils.getUserAccount();
+        if (accountUser1==null){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),
+                    SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+         menuEvaluateService.updateMenuEvaluate(menuEvaluate);
+        return new ResultData<>();
     }
 
 }
