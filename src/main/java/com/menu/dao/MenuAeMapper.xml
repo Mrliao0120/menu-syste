@@ -193,7 +193,7 @@
     select
     <include refid="Base_Column_List" />
     from menu_ae
-    where 1=1
+    where 1=1 AND is_delete=0
     <if test="menuName!=null">
       AND  menu_name  LIKE concat( '%',#{menuName},'%')
     </if>

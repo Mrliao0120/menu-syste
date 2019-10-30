@@ -50,6 +50,7 @@ public class AccountUserServiceImpl implements AccountUserService {
         accountUser.setPassword(s);
         accountUser.setIsDelete(0);
         accountUser.setGmtCreate(new Date());
+        accountUser.setIsLock(0);
         accountUserMapper.insertSelective(accountUser);
         /*String token = AccountTokenUtils.getToken();
         httpServletResponse.setHeader("BackgroundToken",token);*/
