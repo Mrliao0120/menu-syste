@@ -1,7 +1,9 @@
 package com.menu.service;
 
+import com.github.pagehelper.PageInfo;
 import com.menu.bean.UserAccount;
 import com.menu.util.ResultData;
+import com.menu.vo.QueryAccountUserRequest;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,4 +25,11 @@ public interface UserAccountService {
 
 
     ResultData  loginOut();
+
+
+    ResultData<PageInfo<UserAccount>> queryBackGroundUserAccount(QueryAccountUserRequest queryAccountUserRequest);
+
+    ResultData<UserAccount>  queryUserAccountById(Long id);
+
+    void  deleteById(Long id);
 }

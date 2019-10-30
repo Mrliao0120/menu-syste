@@ -1,5 +1,6 @@
 package com.menu.controller.background;
 
+import com.github.pagehelper.PageInfo;
 import com.menu.bean.AccountUser;
 import com.menu.enums.SystemEnum;
 import com.menu.enums.UserLockEnum;
@@ -8,6 +9,7 @@ import com.menu.service.AccountUserService;
 import com.menu.util.AccountUserUtils;
 import com.menu.util.MD5Utils;
 import com.menu.util.ResultData;
+import com.menu.vo.QueryAccountUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,20 @@ public class AccountUserBackgroundController {
     @Autowired
     RedisTemplate redisTemplate;
 
+
+    /**
+     * 用户列表
+     * @param queryAccountUserRequest
+     * @return
+     */
+    @PostMapping(value = "/queryAccountPage")
+    public ResultData<PageInfo<AccountUser>> queryAccountPage(@RequestBody QueryAccountUserRequest queryAccountUserRequest){
+        ResultData<PageInfo<AccountUser>> resultData = accountUserService.queryAccountPage(queryAccountUserRequest);
+        return resultData;
+    }
+
+
+    
     /**
      * 添加用户
      * @param accountUser
@@ -44,7 +60,7 @@ public class AccountUserBackgroundController {
                     SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
         }
         accountUser.checkParameter(accountUser);
-        if (accountUser1.getSystemLevel()<accountUser.getSystemLevel()){
+        if (accountUser1.getSystemLevel()>accountUser.getSystemLevel()){
             throw new ServletException(SystemEnum.PERMISSION_IS_TOO_LOW.getCode(),
                     SystemEnum.PERMISSION_IS_TOO_LOW.getMsg());
         }
@@ -114,6 +130,21 @@ public class AccountUserBackgroundController {
         return new ResultData();
     }
 
+
+    /**
+     * 更新密码账户信息
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/deleteUserById")
+    public ResultData deleteUserById(@RequestParam(value = "id",name = "id",required = true) Long id){
+        AccountUser accountUser1 = new AccountUser();
+        accountUser1.setId(id);
+        accountUser1.setIsDelete(1);
+        accountUserService.updateAccount(accountUser1);
+        return new ResultData();
+    }
+
     /**
      * 用户登出
      * @param
@@ -126,7 +157,7 @@ public class AccountUserBackgroundController {
     }
 
     /**
-     * 用户登出
+     * 检测token
      * @param
      * @return
      */

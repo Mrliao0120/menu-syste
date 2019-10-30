@@ -1,6 +1,9 @@
 package com.menu.service;
 
+import com.github.pagehelper.PageInfo;
 import com.menu.bean.AccountUser;
+import com.menu.util.ResultData;
+import com.menu.vo.QueryAccountUserRequest;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,5 +30,7 @@ public interface AccountUserService {
 
 
     void  updateAccount(AccountUser accountUser);
+
+    ResultData<PageInfo<AccountUser>>  queryAccountPage(QueryAccountUserRequest queryAccountUserRequest);
 
 }

@@ -26,7 +26,7 @@ public class AccountUser implements Serializable {
     private Date gmtCreate;
     /**更新时间**/
     private Date gmtModified;
-    /**系统权限等级  1.root 2.管理员 3菜品管理员**/
+    /**系统权限等级  1.管理员 2菜品管理员**/
     private Integer systemLevel;
 
     private static final long serialVersionUID = 1L;

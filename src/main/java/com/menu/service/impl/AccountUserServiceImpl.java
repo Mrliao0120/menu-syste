@@ -1,5 +1,8 @@
 package com.menu.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.menu.bean.AccountUser;
 import com.menu.dao.AccountUserMapper;
 import com.menu.enums.SystemEnum;
@@ -9,11 +12,14 @@ import com.menu.service.AccountUserService;
 import com.menu.util.AccountTokenUtils;
 import com.menu.util.AccountUserUtils;
 import com.menu.util.MD5Utils;
+import com.menu.util.ResultData;
+import com.menu.vo.QueryAccountUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ProjectName menu-system
@@ -37,7 +43,7 @@ public class AccountUserServiceImpl implements AccountUserService {
     public AccountUser insertAccountUser(AccountUser accountUser, HttpServletResponse httpServletResponse) {
         AccountUser accountUser1 = accountUserMapper.selectByUserName(accountUser.getUsername());
         if (accountUser1!=null){
-            throw new ServletException(SystemEnum.ACCOUNT_ALREADY_EXISTS.getCode(),SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getMsg());
+            throw new ServletException(SystemEnum.ACCOUNT_ALREADY_EXISTS.getCode(),SystemEnum.ACCOUNT_ALREADY_EXISTS.getMsg());
         }
         accountUser.setId(null);
         String s = MD5Utils.md5Encryption(salt, accountUser.getPassword());
@@ -45,8 +51,8 @@ public class AccountUserServiceImpl implements AccountUserService {
         accountUser.setIsDelete(0);
         accountUser.setGmtCreate(new Date());
         accountUserMapper.insertSelective(accountUser);
-        String token = AccountTokenUtils.getToken();
-        httpServletResponse.setHeader("BackgroundToken",token);
+        /*String token = AccountTokenUtils.getToken();
+        httpServletResponse.setHeader("BackgroundToken",token);*/
         return accountUser;
     }
 
@@ -95,9 +101,27 @@ public class AccountUserServiceImpl implements AccountUserService {
         AccountUser accountUser1 = accountUserMapper.selectByPrimaryKey(accountUser.getId());
         if (accountUser1!=null){
             accountUser1.setPassword(accountUser.getPassword());
+            accountUser1.setIsDelete(accountUser.getIsDelete());
             accountUserMapper.updateByPrimaryKeySelective(accountUser1);
-
         }
+    }
+
+    @Override
+    public ResultData<PageInfo<AccountUser>> queryAccountPage(QueryAccountUserRequest queryAccountUserRequest) {
+        AccountUser accountUser1 = AccountUserUtils.getUserAccount();
+        if (accountUser1==null){
+            throw new ServletException(SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getCode(),SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getMsg());
+        }
+        Page<AccountUser> objects = PageHelper.startPage(queryAccountUserRequest.getCurrPage(), queryAccountUserRequest.getPageSize());
+        if (queryAccountUserRequest.getOrderBy()==null||queryAccountUserRequest.getOrderBy()==""){
+            PageHelper.orderBy("gmt_create desc");
+        }
+        List<AccountUser> accountUsers = accountUserMapper.queryByPageAndCondition(queryAccountUserRequest);
+        ResultData<PageInfo<AccountUser>> resultData=new ResultData<>();
+        PageInfo info = new PageInfo<>(objects.getResult());
+        info.setList(accountUsers);
+        resultData.setData(info);
+        return resultData;
     }
 
 

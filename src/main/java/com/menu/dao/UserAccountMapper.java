@@ -2,8 +2,11 @@ package com.menu.dao;
 
 
 import com.menu.bean.UserAccount;
+import com.menu.vo.QueryAccountUserRequest;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public interface UserAccountMapper {
@@ -20,4 +23,7 @@ public interface UserAccountMapper {
     int updateByPrimaryKey(UserAccount record);
 
     UserAccount selectByUserName(@Param("username") String  username);
+
+
+    List<UserAccount>   bgQueryUserAccountPage(QueryAccountUserRequest queryAccountUserRequest);
 }

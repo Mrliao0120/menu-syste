@@ -1,5 +1,8 @@
 package com.menu.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.menu.bean.AccountUser;
 import com.menu.bean.UserAccount;
 import com.menu.dao.UserAccountMapper;
@@ -7,16 +10,15 @@ import com.menu.enums.SystemEnum;
 import com.menu.enums.UserLockEnum;
 import com.menu.exeception.ServletException;
 import com.menu.service.UserAccountService;
-import com.menu.util.AccountTokenUtils;
-import com.menu.util.MD5Utils;
-import com.menu.util.ResultData;
-import com.menu.util.UserAccountUtils;
+import com.menu.util.*;
+import com.menu.vo.QueryAccountUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ProjectName menu-system
@@ -96,5 +98,38 @@ public class UserAccountServiceImpl implements UserAccountService {
             userAccountUtils.deleteToken(userAccount);
         }
         return new ResultData();
+    }
+
+    @Override
+    public ResultData<PageInfo<UserAccount>> queryBackGroundUserAccount(QueryAccountUserRequest queryAccountUserRequest) {
+        AccountUser accountUser1 = AccountUserUtils.getUserAccount();
+        if (accountUser1==null){
+            throw new ServletException(SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getCode(),SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getMsg());
+        }
+        Page<UserAccount> objects = PageHelper.startPage(queryAccountUserRequest.getCurrPage(), queryAccountUserRequest.getPageSize());
+        if (queryAccountUserRequest.getOrderBy()==null||queryAccountUserRequest.getOrderBy()==""){
+            PageHelper.orderBy("gmt_create desc");
+        }
+        List<UserAccount> accountUsers = userAccountMapper.bgQueryUserAccountPage(queryAccountUserRequest);
+        ResultData<PageInfo<UserAccount>> resultData=new ResultData<>();
+        PageInfo info = new PageInfo<>(objects.getResult());
+        info.setList(accountUsers);
+        resultData.setData(info);
+        return resultData;
+    }
+
+    @Override
+    public ResultData<UserAccount> queryUserAccountById(Long id) {
+        ResultData<UserAccount> resultData=new ResultData<>();
+        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(id);
+        resultData.setData(userAccount);
+        return resultData;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(id);
+        userAccount.setIsDelete(1);
+        userAccountMapper.updateByPrimaryKeySelective(userAccount);
     }
 }

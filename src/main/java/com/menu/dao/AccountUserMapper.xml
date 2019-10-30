@@ -144,4 +144,15 @@
     from account_user
     where username=#{userName} and is_delete=0  limit 1
   </select>
+
+
+  <select id="queryByPageAndCondition" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from account_user
+    where  is_delete=0
+    <if test="search!=null">
+      AND  (username  LIKE concat( '%',#{search},'%') OR  nickname  LIKE concat( '%',#{search},'%'))
+    </if>
+  </select>
 </mapper>

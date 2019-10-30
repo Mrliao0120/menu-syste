@@ -15,7 +15,7 @@ CREATE TABLE `account_user` (
   `is_lock` int(2) DEFAULT NULL COMMENT '是否锁定',
   `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `system_level` int(11) DEFAULT NULL COMMENT '系统权限等级  1.root 2.管理员 3菜品管理员',
+  `system_level` int(11) DEFAULT NULL COMMENT '系统权限等级  1.System管理员 2菜品管理员',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
