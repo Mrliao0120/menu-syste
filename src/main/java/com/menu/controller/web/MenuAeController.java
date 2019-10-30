@@ -33,7 +33,7 @@ public class MenuAeController {
      */
     @PostMapping(value = "/queryByPageCondition")
     public ResultData<PageInfo<MenuAe>>   queryByPageCondition(@RequestBody QueryMenuAeRequest queryMenuAeRequest, HttpServletRequest httpServletRequest){
-        ResultData<PageInfo<MenuAe>> resultData = menuAeService.queryByCondition(queryMenuAeRequest);
+        ResultData<PageInfo<MenuAe>> resultData = menuAeService.queryByCondition(queryMenuAeRequest,httpServletRequest);
         return  resultData;
     }
 

@@ -7,6 +7,8 @@ import com.menu.bean.MenuAe;
 import com.menu.util.ResultData;
 import com.menu.vo.QueryMenuAeRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author
  * @Title:
@@ -18,7 +20,7 @@ public interface MenuAeService {
 
 
 
-        ResultData<PageInfo<MenuAe>>    queryByCondition(QueryMenuAeRequest queryMenuAeRequest);
+        ResultData<PageInfo<MenuAe>>    queryByCondition(QueryMenuAeRequest queryMenuAeRequest, HttpServletRequest httpServletRequest);
 
 
 

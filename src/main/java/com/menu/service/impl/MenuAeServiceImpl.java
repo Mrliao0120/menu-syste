@@ -8,6 +8,7 @@ import com.menu.bean.MenuAe;
 import com.menu.bean.MenuEvaluate;
 import com.menu.bean.UserAccount;
 import com.menu.dao.MenuEvaluateMapper;
+import com.menu.dao.UserAccountMapper;
 import com.menu.enums.SystemEnum;
 import com.menu.exeception.ServletException;
 import com.menu.service.MenuAeService;
@@ -16,9 +17,11 @@ import com.menu.util.ResultData;
 import com.menu.util.UserAccountUtils;
 import com.menu.vo.QueryMenuAeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import com.menu.dao.MenuAeMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -35,14 +38,21 @@ public class MenuAeServiceImpl implements MenuAeService {
 
     @Autowired
     MenuAeMapper menuAeMapper;
-
+    @Autowired
+    UserAccountMapper userAccountMapper;
     @Autowired
     MenuEvaluateMapper menuEvaluateMapper;
-
+    @Autowired
+    RedisTemplate redisTemplate;
+    public final String ACCOUNT_TOKEN_KEY="MENU:ACCOUNT:TOKEN:";
     @Override
-    public ResultData<PageInfo<MenuAe>> queryByCondition(QueryMenuAeRequest queryMenuAeRequest) {
-
-        UserAccount userAccount = UserAccountUtils.getUserAccount();
+    public ResultData<PageInfo<MenuAe>> queryByCondition(QueryMenuAeRequest queryMenuAeRequest, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("token");
+        Object o = redisTemplate.opsForValue().get(ACCOUNT_TOKEN_KEY + token);
+        if (o==null){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(Long.valueOf(o.toString()));
         if (userAccount==null){
             throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
         }
