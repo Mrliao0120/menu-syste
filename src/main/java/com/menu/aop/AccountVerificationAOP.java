@@ -37,19 +37,23 @@ public class AccountVerificationAOP {
 
 
     @Pointcut("execution(public * com.menu.controller.web.*.*(..))")
-    public void  checkToken(){}
+    public void  checkTokens(){}
 
-    @Before("checkToken()")
+    @Before("checkTokens()")
     public void beforeCheckToken(JoinPoint joinPoint){
         UserAccountUtils.removeCurrentUserContextThreadLocal();
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String headerName = request.getHeader("token");
         if (headerName!=null){
-            String key = redisTemplate.opsForValue().get(ACCOUNT_TOKEN_KEY + headerName).toString();
-            if (key!=null){
-                UserAccount userAccount = userAccountMapper.selectByPrimaryKey(Long.valueOf(key));
-                UserAccountUtils.setCurrentUserContextThreadLocal(userAccount);
+            Object o = redisTemplate.opsForValue().get(ACCOUNT_TOKEN_KEY + headerName);
+            if (o!=null){
+                String key = o.toString();
+                if (key!=null){
+                    UserAccount userAccount = userAccountMapper.selectByPrimaryKey(Long.valueOf(key));
+                    UserAccountUtils.setCurrentUserContextThreadLocal(userAccount);
+                }
             }
+
         }
     }
 

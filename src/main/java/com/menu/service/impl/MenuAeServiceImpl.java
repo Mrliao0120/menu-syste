@@ -5,11 +5,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.menu.bean.AccountUser;
 import com.menu.bean.MenuAe;
+import com.menu.bean.MenuEvaluate;
+import com.menu.bean.UserAccount;
+import com.menu.dao.MenuEvaluateMapper;
 import com.menu.enums.SystemEnum;
 import com.menu.exeception.ServletException;
 import com.menu.service.MenuAeService;
 import com.menu.util.AccountUserUtils;
 import com.menu.util.ResultData;
+import com.menu.util.UserAccountUtils;
 import com.menu.vo.QueryMenuAeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +36,16 @@ public class MenuAeServiceImpl implements MenuAeService {
     @Autowired
     MenuAeMapper menuAeMapper;
 
+    @Autowired
+    MenuEvaluateMapper menuEvaluateMapper;
+
     @Override
     public ResultData<PageInfo<MenuAe>> queryByCondition(QueryMenuAeRequest queryMenuAeRequest) {
+
+        UserAccount userAccount = UserAccountUtils.getUserAccount();
+        if (userAccount==null){
+            throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
+        }
         ResultData<PageInfo<MenuAe>> resultData=new ResultData<>();
         Page<MenuAe> objects = PageHelper.startPage(queryMenuAeRequest.getCurrPage(), queryMenuAeRequest.getPageSize());
         if (queryMenuAeRequest.getOrderBy()==null||queryMenuAeRequest.getOrderBy()==""){
@@ -41,6 +53,14 @@ public class MenuAeServiceImpl implements MenuAeService {
         }
         List<MenuAe> menuAes = menuAeMapper.queryByPageAndCondition(queryMenuAeRequest);
         PageInfo info = new PageInfo<>(objects.getResult());
+        if (menuAes!=null&&menuAes.size()>0){
+            menuAes.forEach(x->{
+                MenuEvaluate menuEvaluate = menuEvaluateMapper.selectByMenuIdAndUserId(x.getId(), userAccount.getId());
+                if (menuEvaluate!=null){
+                x.setMenuEvaluateScore(menuEvaluate.getMenuEvaluateScore());
+                }
+            });
+        }
         info.setList(menuAes);
         resultData.setData(info);
         return resultData;

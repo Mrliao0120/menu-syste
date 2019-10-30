@@ -3,6 +3,7 @@ package com.menu.util;
 
 import com.menu.bean.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.NamedInheritableThreadLocal;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -27,16 +28,16 @@ public class UserAccountUtils {
     public final String ACCOUNT_USERNAME_KEY="MENU:ACCOUNT:USERNAME:";
 
 
-    private static final ThreadLocal<UserAccount> CURRENT_USER_CONTEXT_THREAD_LOCAL = new NamedThreadLocal<>("userAccount");
+    private static final ThreadLocal<UserAccount> CURRENT_ACCOUNT_USER_CONTEXT_THREAD_LOCAL = new NamedInheritableThreadLocal<>("UserAccount");
 
 
     public  static  void  setCurrentUserContextThreadLocal(UserAccount userContextThreadLocal){
-        CURRENT_USER_CONTEXT_THREAD_LOCAL.set(userContextThreadLocal);
+        CURRENT_ACCOUNT_USER_CONTEXT_THREAD_LOCAL.set(userContextThreadLocal);
     }
 
 
     public  static  void  removeCurrentUserContextThreadLocal(){
-        CURRENT_USER_CONTEXT_THREAD_LOCAL.remove();
+        CURRENT_ACCOUNT_USER_CONTEXT_THREAD_LOCAL.remove();
     }
 
     /**
@@ -44,7 +45,7 @@ public class UserAccountUtils {
      * @return
      */
     public static UserAccount getUserAccount(){
-        UserAccount userAccount = CURRENT_USER_CONTEXT_THREAD_LOCAL.get();
+        UserAccount userAccount = CURRENT_ACCOUNT_USER_CONTEXT_THREAD_LOCAL.get();
         return userAccount;
     }
 

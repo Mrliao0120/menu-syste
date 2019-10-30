@@ -8,6 +8,8 @@ import com.menu.vo.QueryMenuAeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author lhb
  * @Title:
@@ -30,7 +32,7 @@ public class MenuAeController {
      * @return
      */
     @PostMapping(value = "/queryByPageCondition")
-    public ResultData   queryByPageCondition(@RequestBody QueryMenuAeRequest queryMenuAeRequest){
+    public ResultData<PageInfo<MenuAe>>   queryByPageCondition(@RequestBody QueryMenuAeRequest queryMenuAeRequest, HttpServletRequest httpServletRequest){
         ResultData<PageInfo<MenuAe>> resultData = menuAeService.queryByCondition(queryMenuAeRequest);
         return  resultData;
     }

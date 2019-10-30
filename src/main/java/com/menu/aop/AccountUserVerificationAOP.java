@@ -45,11 +45,15 @@ public class AccountUserVerificationAOP {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String headerName = request.getHeader("BackgroundToken");
         if (headerName!=null){
-            String key = redisTemplate.opsForValue().get(ACCOUNT_TOKEN_KEY + headerName).toString();
-            if (key!=null){
-                AccountUser userAccount = accountUserMapper.selectByPrimaryKey(Long.valueOf(key));
-                AccountUserUtils.setCurrentUserContextThreadLocal(userAccount);
+            Object o = redisTemplate.opsForValue().get(ACCOUNT_TOKEN_KEY + headerName);
+            if (o!=null){
+                String key = o.toString();
+                if (key!=null){
+                    AccountUser userAccount = accountUserMapper.selectByPrimaryKey(Long.valueOf(key));
+                    AccountUserUtils.setCurrentUserContextThreadLocal(userAccount);
+                }
             }
+
         }
     }
 }

@@ -4,10 +4,13 @@ import com.menu.bean.UserAccount;
 import com.menu.service.UserAccountService;
 import com.menu.util.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -23,7 +26,8 @@ public class UserAccountController {
 
     @Autowired
     UserAccountService userAccountService;
-
+    @Autowired
+    RedisTemplate redisTemplate;
 
 
     /**
@@ -62,6 +66,31 @@ public class UserAccountController {
         ResultData login = userAccountService.loginOut();
         return login;
     }
+
+
+    /**
+     * 检测token
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/queryToken")
+    public ResultData queryToken(HttpServletRequest httpServletRequest){
+        ResultData resultData=new ResultData();
+        String backgroundToken = httpServletRequest.getHeader("token");
+        if (backgroundToken!=null){
+            Object o = redisTemplate.opsForValue().get("MENU:ACCOUNT:TOKEN:" + backgroundToken);
+            if (o!=null){
+                resultData.setData(o);
+                resultData.setCode(200);
+            }else {
+                resultData.setCode(502);
+            }
+        }else {
+            resultData.setCode(502);
+        }
+        return resultData;
+    }
+
 
 
 }

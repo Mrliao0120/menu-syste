@@ -179,4 +179,12 @@
     from menu_evaluate
     where menu_evaluate_id = #{id,jdbcType=BIGINT} and is_delete=0 and is_root_reply=1  limit 1;
   </select>
+
+
+  <select id="selectByMenuIdAndUserId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_evaluate
+    where menu_id = #{menuId,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT} and is_delete=0 and is_root_reply=0 limit 1;
+  </select>
 </mapper>

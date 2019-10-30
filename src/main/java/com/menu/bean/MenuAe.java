@@ -31,6 +31,8 @@ public class MenuAe implements Serializable {
     private String menuWindow;
     /**食堂**/
     private String canteenName;
+    /**评分**/
+    private Integer menuEvaluateScore;
 
     private static final long serialVersionUID = 1L;
 

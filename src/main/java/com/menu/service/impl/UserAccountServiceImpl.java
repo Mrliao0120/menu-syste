@@ -73,10 +73,6 @@ public class UserAccountServiceImpl implements UserAccountService {
             throw new ServletException(SystemEnum.ACCOUNT_ALREADY_EXISTS.getCode(),
                     SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getMsg());
         }
-        if (userAccount.getIsLock()==1){
-            throw new ServletException(UserLockEnum.ACCOUNT_LOCKED.getCode(),
-                    UserLockEnum.ACCOUNT_LOCKED.getMsg());
-        }
         String s = MD5Utils.md5Encryption(salt, userAccount.getPassword());
         //密码验证
         if (!loginUserInfo.getPassword().equals(s)){
@@ -85,11 +81,14 @@ public class UserAccountServiceImpl implements UserAccountService {
         }
         resultData.setData(loginUserInfo);
         //token操作相关
-        userAccountUtils.deleteToken(userAccount);
-        String token = userAccountUtils.setToken(userAccount);
+        userAccountUtils.deleteToken(loginUserInfo);
+        String token = userAccountUtils.setToken(loginUserInfo);
+        httpServletResponse.setHeader("Access-Control-Expose-Headers", "token");
         httpServletResponse.setHeader("token",token);
         return resultData;
     }
+
+
 
     @Override
     public ResultData loginOut() {
