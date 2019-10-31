@@ -28,4 +28,7 @@ public interface MenuEvaluateMapper {
 
 
     MenuEvaluate selectByMenuIdAndUserId(@Param("menuId") Long menuId,@Param("userId") Long userId);
+
+
+    List<MenuEvaluate> queryByMenuId(@Param("asList")List<Long> asList);
 }

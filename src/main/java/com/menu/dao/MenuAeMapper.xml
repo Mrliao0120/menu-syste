@@ -181,7 +181,7 @@
     <include refid="Base_Column_List" />
     from menu_ae
     where is_delete=0
-    <if test="menuName!=null">
+    <if test="menuName!=null and menuName!=''">
         AND  menu_name  LIKE concat( '%',#{menuName},'%')
     </if>
     <if test="createUserId!=null">

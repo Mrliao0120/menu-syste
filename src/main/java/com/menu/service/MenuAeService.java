@@ -5,9 +5,11 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.menu.bean.MenuAe;
 import com.menu.util.ResultData;
+import com.menu.vo.QueryIndexMenuAeVO;
 import com.menu.vo.QueryMenuAeRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author
@@ -33,4 +35,7 @@ public interface MenuAeService {
 
 
         MenuAe queryById(Long id);
+
+
+        List<QueryIndexMenuAeVO> queryByAndIndexId(Long id);
 }

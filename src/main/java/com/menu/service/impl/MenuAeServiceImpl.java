@@ -15,6 +15,7 @@ import com.menu.service.MenuAeService;
 import com.menu.util.AccountUserUtils;
 import com.menu.util.ResultData;
 import com.menu.util.UserAccountUtils;
+import com.menu.vo.QueryIndexMenuAeVO;
 import com.menu.vo.QueryMenuAeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,8 +23,9 @@ import org.springframework.stereotype.Service;
 import com.menu.dao.MenuAeMapper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author
@@ -42,17 +44,11 @@ public class MenuAeServiceImpl implements MenuAeService {
     UserAccountMapper userAccountMapper;
     @Autowired
     MenuEvaluateMapper menuEvaluateMapper;
-    @Autowired
-    RedisTemplate redisTemplate;
-    public final String ACCOUNT_TOKEN_KEY="MENU:ACCOUNT:TOKEN:";
+
+
     @Override
     public ResultData<PageInfo<MenuAe>> queryByCondition(QueryMenuAeRequest queryMenuAeRequest, HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader("token");
-        Object o = redisTemplate.opsForValue().get(ACCOUNT_TOKEN_KEY + token);
-        if (o==null){
-            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
-        }
-        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(Long.valueOf(o.toString()));
+        UserAccount userAccount = UserAccountUtils.getUserAccount();
         if (userAccount==null){
             throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
         }
@@ -63,14 +59,20 @@ public class MenuAeServiceImpl implements MenuAeService {
         }
         List<MenuAe> menuAes = menuAeMapper.queryByPageAndCondition(queryMenuAeRequest);
         PageInfo info = new PageInfo<>(objects.getResult());
-        if (menuAes!=null&&menuAes.size()>0){
-            menuAes.forEach(x->{
-                MenuEvaluate menuEvaluate = menuEvaluateMapper.selectByMenuIdAndUserId(x.getId(), userAccount.getId());
-                if (menuEvaluate!=null){
-                x.setMenuEvaluateScore(menuEvaluate.getMenuEvaluateScore());
+        List<Long> menuAeListId = menuAes.stream().map(MenuAe::getId).collect(Collectors.toList());
+        List<MenuEvaluate> menuEvaluates = menuEvaluateMapper.queryByMenuId(menuAeListId);
+        Map<Long, List<MenuEvaluate>> collect = menuEvaluates.stream().collect(Collectors.groupingBy(MenuEvaluate::getMenuId));
+        menuAes.forEach(x->{
+            List<MenuEvaluate> menuEvaluates1 = collect.get(x.getId());
+            if (menuEvaluates1!=null&&menuEvaluates1.size()>0){
+                BigDecimal  countBig=BigDecimal.ZERO;
+                for (MenuEvaluate y:menuEvaluates1) {
+                    countBig=countBig.add(BigDecimal.valueOf(y.getMenuEvaluateScore()));
                 }
-            });
-        }
+                countBig= countBig.divide(BigDecimal.valueOf(menuEvaluates1.size()));
+                x.setMenuEvaluateScore(countBig.intValue());
+            }
+        });
         info.setList(menuAes);
         resultData.setData(info);
         return resultData;
@@ -124,5 +126,26 @@ public class MenuAeServiceImpl implements MenuAeService {
     public MenuAe queryById(Long id) {
         MenuAe menuAe = menuAeMapper.selectByPrimaryKey(id);
         return menuAe;
+    }
+
+    @Override
+    public  List<QueryIndexMenuAeVO> queryByAndIndexId(Long id) {
+        List<QueryIndexMenuAeVO> queryIndexMenuAeVOList=new ArrayList<>();
+        MenuAe menuAe = menuAeMapper.selectByPrimaryKey(id);
+        if (menuAe!=null){
+            QueryIndexMenuAeVO queryIndexMenuAeVO=new QueryIndexMenuAeVO();
+            List<Long>list=new LinkedList<>();
+            list.add(menuAe.getId());
+            List<MenuEvaluate> menuEvaluates = menuEvaluateMapper.queryByMenuId(list);
+
+            BigDecimal  countBig=BigDecimal.ZERO;
+            for (MenuEvaluate y:menuEvaluates) {
+                countBig=countBig.add(BigDecimal.valueOf(y.getMenuEvaluateScore()));
+            }
+            countBig= countBig.divide(BigDecimal.valueOf(menuEvaluates.size()));
+            menuAe.setMenuEvaluateScore(countBig.intValue());
+            queryIndexMenuAeVO.setMenuEvaluateScore(countBig.intValue());
+        }
+        return queryIndexMenuAeVOList;
     }
 }

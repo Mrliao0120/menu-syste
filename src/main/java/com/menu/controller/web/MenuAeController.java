@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author lhb
+ * @author
  * @Title:
- * @ProjectName menu-syste
+ * @ProjectName menu-system
  * @Description: TODO
  * @Date create in 19:10 2019/10/28
  */
@@ -37,6 +37,17 @@ public class MenuAeController {
         return  resultData;
     }
 
+
+    /**
+     * 菜品详情
+     */
+    @PostMapping(value = "/queryById")
+    public ResultData<MenuAe>   queryById(@RequestParam(value = "id",required = true)Long id){
+        ResultData<MenuAe> resultData=new ResultData<>();
+        MenuAe menuAe = menuAeService.queryById(id);
+        resultData.setData(menuAe);
+        return  resultData;
+    }
 
 
 
