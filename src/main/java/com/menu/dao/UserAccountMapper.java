@@ -26,4 +26,7 @@ public interface UserAccountMapper {
 
 
     List<UserAccount>   bgQueryUserAccountPage(QueryAccountUserRequest queryAccountUserRequest);
+
+
+    List<UserAccount>  queryUserById(@Param("asList") List<Long> asList);
 }

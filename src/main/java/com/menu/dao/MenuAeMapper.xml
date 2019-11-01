@@ -206,7 +206,7 @@
     select
     <include refid="Base_Column_List" />
     from menu_ae
-    where id IN
+    where  is_delete=0 AND  id IN
     <foreach collection="asList" separator="," item="item" open="(" close=")">
       #{item}
   </foreach>

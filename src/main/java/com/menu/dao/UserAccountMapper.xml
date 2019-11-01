@@ -142,4 +142,15 @@
       AND  (username  LIKE concat( '%',#{search},'%') OR  nickname  LIKE concat( '%',#{search},'%'))
     </if>
   </select>
+
+
+  <select id="queryUserById" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user_account
+    where  is_delete=0  AND  id IN
+    <foreach collection="asList" item="item" separator="," close=")" open="(">
+      #{item}
+    </foreach>
+  </select>
 </mapper>

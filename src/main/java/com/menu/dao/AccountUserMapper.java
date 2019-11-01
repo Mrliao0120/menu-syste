@@ -25,4 +25,6 @@ public interface AccountUserMapper {
     AccountUser selectByUserName(@Param("userName") String  userName);
 
     List<AccountUser>  queryByPageAndCondition(QueryAccountUserRequest queryAccountUserRequest);
+
+
 }

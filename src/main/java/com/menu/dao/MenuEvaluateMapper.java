@@ -27,8 +27,12 @@ public interface MenuEvaluateMapper {
     MenuEvaluate selectByParentKey(Long id);
 
 
-    MenuEvaluate selectByMenuIdAndUserId(@Param("menuId") Long menuId,@Param("userId") Long userId);
+    List<MenuEvaluate> selectByMenuIdAndUserId(@Param("menuId") Long menuId,@Param("userId") Long userId);
 
 
     List<MenuEvaluate> queryByMenuId(@Param("asList")List<Long> asList);
+
+
+
+    List<MenuEvaluate> queryByMenuIdAndBg(@Param("asList")List<Long> asList);
 }

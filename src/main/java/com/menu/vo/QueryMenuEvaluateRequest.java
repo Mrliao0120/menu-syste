@@ -16,5 +16,7 @@ public class QueryMenuEvaluateRequest extends AbstractPageRequest {
         //菜品名称
         private String menuName;
 
+       private Long id;
+
         private Long  createUserId;
 }

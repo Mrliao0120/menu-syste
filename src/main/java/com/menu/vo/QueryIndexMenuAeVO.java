@@ -17,4 +17,7 @@ import java.util.List;
 public class QueryIndexMenuAeVO extends MenuAe {
 
     List<QueryMenuEvaluateDetailVO> queryMenuEvaluateDetailVOS;
+
+    //用户评论
+    MenuEvaluate menuEvaluate;
 }

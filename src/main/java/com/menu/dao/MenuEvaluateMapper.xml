@@ -185,7 +185,11 @@
     select
     <include refid="Base_Column_List" />
     from menu_evaluate
-    where menu_id = #{menuId,jdbcType=BIGINT} and user_id = #{userId,jdbcType=BIGINT} and is_delete=0 and is_root_reply=0 limit 1;
+    where menu_id = #{menuId,jdbcType=BIGINT}
+    <if test="userId!=null and userId!=''">
+      and user_id = #{userId,jdbcType=BIGINT}
+    </if>
+     and is_delete=0 and is_root_reply=0 and menu_type=1;
   </select>
 
 
@@ -197,6 +201,18 @@
     menu_id in
     <foreach collection="asList" open="(" close=")" separator="," item="item">
         #{item}
+    </foreach>
+  </select>
+
+
+  <select id="queryByMenuIdAndBg" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from menu_evaluate
+    where is_delete=0 and is_root_reply=1 and menu_type=2 and
+    menu_evaluate_id in
+    <foreach collection="asList" open="(" close=")" separator="," item="item">
+      #{item}
     </foreach>
   </select>
 </mapper>

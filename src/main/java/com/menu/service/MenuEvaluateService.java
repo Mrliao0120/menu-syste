@@ -31,4 +31,7 @@ public interface MenuEvaluateService {
 
     void   updateMenuEvaluate(MenuEvaluate evaluate);
 
+
+    ResultData<PageInfo<QueryMenuEvaluateDetailVO>> queryByPageMenuEvaluate(QueryMenuEvaluateRequest  queryMenuEvaluateRequest);
+
 }

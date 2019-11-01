@@ -17,17 +17,16 @@ import com.menu.service.MenuAeService;
 import com.menu.service.MenuEvaluateService;
 import com.menu.util.AccountUserUtils;
 import com.menu.util.ResultData;
+import com.menu.util.UserAccountUtils;
 import com.menu.vo.QueryMenuEvaluateDetailVO;
 import com.menu.vo.QueryMenuEvaluateRequest;
 import com.menu.vo.QueryMenuEvaluateVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -139,5 +138,55 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
     @Override
     public void updateMenuEvaluate(MenuEvaluate evaluate) {
         menuEvaluateMapper.updateByPrimaryKeySelective(evaluate);
+    }
+
+    @Override
+    public ResultData<PageInfo<QueryMenuEvaluateDetailVO>> queryByPageMenuEvaluate(QueryMenuEvaluateRequest queryMenuEvaluateRequest) {
+        UserAccount userAccount = UserAccountUtils.getUserAccount();
+        if (userAccount==null){
+            throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
+        }
+        ResultData<PageInfo<QueryMenuEvaluateDetailVO>> resultData=new ResultData<>();
+        Page<MenuEvaluate> objects = PageHelper.startPage(queryMenuEvaluateRequest.getCurrPage(), queryMenuEvaluateRequest.getPageSize());
+        if (queryMenuEvaluateRequest.getOrderBy()==null||queryMenuEvaluateRequest.getOrderBy()==""){
+            PageHelper.orderBy("gmt_create desc");
+        }
+        List<MenuEvaluate> menuEvaluates = menuEvaluateMapper.selectByMenuIdAndUserId(queryMenuEvaluateRequest.getId(), null);
+        List<QueryMenuEvaluateDetailVO> queryMenuEvaluateDetailVOList=new ArrayList<>();
+        if (menuEvaluates!=null&&menuEvaluates.size()>0){
+            //菜品
+            MenuAe menuAe = menuAeMapper.selectByPrimaryKey(queryMenuEvaluateRequest.getId());
+            //评论
+            List<Long>  menuEvaluateId = menuEvaluates.stream().map(MenuEvaluate::getId).collect(Collectors.toList());
+            List<MenuEvaluate> menuEvaluates1 = menuEvaluateMapper.queryByMenuIdAndBg(menuEvaluateId);
+            Map<Long, MenuEvaluate> evaluateMap = menuEvaluates1.stream().collect(Collectors.toMap(MenuEvaluate::getMenuEvaluateId, x -> x));
+            //获取评论用户名称
+            List<Long> userList = menuEvaluates1.stream().map(MenuEvaluate::getUserId).collect(Collectors.toList());
+            //查询前台用户
+            List<UserAccount> userAccounts = userAccountMapper.queryUserById(userList);
+            Map<Long, UserAccount> collect = userAccounts.stream().collect(Collectors.toMap(UserAccount::getId, u -> u));
+            menuEvaluates.forEach(x->{
+                //对象封装
+                QueryMenuEvaluateDetailVO queryMenuEvaluateDetailVO=new QueryMenuEvaluateDetailVO();
+                BeanUtils.copyProperties(x,queryMenuEvaluateDetailVO);
+                queryMenuEvaluateDetailVO.setMenuName(menuAe.getMenuName());
+                UserAccount userAccount1 = collect.get(x.getId());
+                if (userAccount1!=null){
+                    queryMenuEvaluateDetailVO.setNickName(userAccount1.getNickname());
+                }
+                //管理员回复
+                MenuEvaluate menuEvaluate = evaluateMap.get(x.getId());
+                //回复
+                QueryMenuEvaluateDetailVO returnMenuEvaluateDetailVO=new QueryMenuEvaluateDetailVO();
+                queryMenuEvaluateDetailVO.setReturnMenuEvaluate(returnMenuEvaluateDetailVO);
+
+                queryMenuEvaluateDetailVOList.add(queryMenuEvaluateDetailVO);
+            });
+
+        }
+        PageInfo info = new PageInfo<>(objects.getResult());
+        info.setList(queryMenuEvaluateDetailVOList);
+        resultData.setData(info);
+        return resultData;
     }
 }

@@ -17,6 +17,7 @@ import com.menu.util.ResultData;
 import com.menu.util.UserAccountUtils;
 import com.menu.vo.QueryIndexMenuAeVO;
 import com.menu.vo.QueryMenuAeRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -130,10 +131,15 @@ public class MenuAeServiceImpl implements MenuAeService {
 
     @Override
     public  List<QueryIndexMenuAeVO> queryByAndIndexId(Long id) {
+        UserAccount userAccount = UserAccountUtils.getUserAccount();
+        if (userAccount==null){
+            throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
+        }
         List<QueryIndexMenuAeVO> queryIndexMenuAeVOList=new ArrayList<>();
         MenuAe menuAe = menuAeMapper.selectByPrimaryKey(id);
         if (menuAe!=null){
             QueryIndexMenuAeVO queryIndexMenuAeVO=new QueryIndexMenuAeVO();
+            BeanUtils.copyProperties(menuAe,queryIndexMenuAeVO);
             List<Long>list=new LinkedList<>();
             list.add(menuAe.getId());
             List<MenuEvaluate> menuEvaluates = menuEvaluateMapper.queryByMenuId(list);
@@ -144,6 +150,12 @@ public class MenuAeServiceImpl implements MenuAeService {
             }
             countBig= countBig.divide(BigDecimal.valueOf(menuEvaluates.size()));
             menuAe.setMenuEvaluateScore(countBig.intValue());
+            //查询本人相关评论
+            List<MenuEvaluate> menuEvaluates1 = menuEvaluateMapper.selectByMenuIdAndUserId(menuAe.getId(), userAccount.getId());
+            if (menuEvaluates1!=null&&menuEvaluates1.size()>0){
+                MenuEvaluate menuEvaluate = menuEvaluates1.get(0);
+                queryIndexMenuAeVO.setMenuEvaluate(menuEvaluate);
+            }
             queryIndexMenuAeVO.setMenuEvaluateScore(countBig.intValue());
         }
         return queryIndexMenuAeVOList;
