@@ -27,4 +27,5 @@ public interface AccountUserMapper {
     List<AccountUser>  queryByPageAndCondition(QueryAccountUserRequest queryAccountUserRequest);
 
 
+    List<AccountUser> queryByIds(@Param("asList")List<Long> asList);
 }

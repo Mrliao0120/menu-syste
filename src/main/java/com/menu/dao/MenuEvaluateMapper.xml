@@ -185,11 +185,17 @@
     select
     <include refid="Base_Column_List" />
     from menu_evaluate
-    where menu_id = #{menuId,jdbcType=BIGINT}
+    where  is_delete=0
+    <if test="menuId!=null and menuId!=''">
+      and  menu_id = #{menuId,jdbcType=BIGINT}
+    </if>
     <if test="userId!=null and userId!=''">
       and user_id = #{userId,jdbcType=BIGINT}
     </if>
-     and is_delete=0 and is_root_reply=0 and menu_type=1;
+    <if test="evaluateName!=null and evaluateName!=''">
+      and menu_evaluate  LIKE concat( '%',#{evaluateName},'%')
+    </if>
+      and is_root_reply=0 and menu_type=1;
   </select>
 
 
@@ -215,4 +221,24 @@
       #{item}
     </foreach>
   </select>
+
+
+  <select id="selectMenuAndMenuName" resultMap="BaseResultMap" >
+    select
+    m1.*
+    from menu_evaluate AS m1 LEFT JOIN menu_ae as m2 ON m1.menu_id=m2.id
+    where  m1.is_delete=0 and m2.is_delete=0
+    <if test="menuId!=null and menuId!=''">
+      and  m1.menu_id = #{menuId,jdbcType=BIGINT}
+    </if>
+    <if test="userId!=null and userId!=''">
+      and m1.user_id = #{userId,jdbcType=BIGINT}
+    </if>
+    <if test="evaluateName!=null and evaluateName!=''">
+      and m2.menu_name  LIKE concat( '%',#{evaluateName},'%')
+    </if>
+    and m1.is_root_reply=0 and m1.menu_type=1;
+  </select>
+
+
 </mapper>

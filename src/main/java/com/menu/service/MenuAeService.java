@@ -37,5 +37,5 @@ public interface MenuAeService {
         MenuAe queryById(Long id);
 
 
-        List<QueryIndexMenuAeVO> queryByAndIndexId(Long id);
+        QueryIndexMenuAeVO queryByAndIndexId(Long id);
 }

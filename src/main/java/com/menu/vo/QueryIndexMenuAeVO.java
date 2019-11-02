@@ -20,4 +20,6 @@ public class QueryIndexMenuAeVO extends MenuAe {
 
     //用户评论
     MenuEvaluate menuEvaluate;
+
+
 }

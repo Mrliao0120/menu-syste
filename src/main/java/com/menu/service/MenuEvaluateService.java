@@ -6,6 +6,9 @@ import com.menu.util.ResultData;
 import com.menu.vo.QueryMenuEvaluateDetailVO;
 import com.menu.vo.QueryMenuEvaluateRequest;
 import com.menu.vo.QueryMenuEvaluateVO;
+import com.menu.vo.QueryMyEvaluateVO;
+
+import javax.xml.transform.Result;
 
 /**
  * @author lhb
@@ -34,4 +37,8 @@ public interface MenuEvaluateService {
 
     ResultData<PageInfo<QueryMenuEvaluateDetailVO>> queryByPageMenuEvaluate(QueryMenuEvaluateRequest  queryMenuEvaluateRequest);
 
+    void  addMenuEvaluate(MenuEvaluate menuEvaluate);
+
+
+    ResultData<PageInfo<QueryMyEvaluateVO>>   queryMyEvaluate(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
 }

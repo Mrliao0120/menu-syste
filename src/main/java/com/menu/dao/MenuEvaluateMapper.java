@@ -27,7 +27,7 @@ public interface MenuEvaluateMapper {
     MenuEvaluate selectByParentKey(Long id);
 
 
-    List<MenuEvaluate> selectByMenuIdAndUserId(@Param("menuId") Long menuId,@Param("userId") Long userId);
+    List<MenuEvaluate> selectByMenuIdAndUserId(@Param("menuId") Long menuId,@Param("userId") Long userId,@Param("evaluateName")String evaluateName);
 
 
     List<MenuEvaluate> queryByMenuId(@Param("asList")List<Long> asList);
@@ -35,4 +35,10 @@ public interface MenuEvaluateMapper {
 
 
     List<MenuEvaluate> queryByMenuIdAndBg(@Param("asList")List<Long> asList);
+
+
+
+    List<MenuEvaluate> selectMenuAndMenuName(@Param("menuId") Long menuId,@Param("userId") Long userId,@Param("evaluateName")String evaluateName);
+
+
 }

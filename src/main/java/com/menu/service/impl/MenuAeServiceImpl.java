@@ -17,6 +17,7 @@ import com.menu.util.ResultData;
 import com.menu.util.UserAccountUtils;
 import com.menu.vo.QueryIndexMenuAeVO;
 import com.menu.vo.QueryMenuAeRequest;
+import com.menu.vo.QueryMenuEvaluateDetailVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -130,34 +131,44 @@ public class MenuAeServiceImpl implements MenuAeService {
     }
 
     @Override
-    public  List<QueryIndexMenuAeVO> queryByAndIndexId(Long id) {
+    public  QueryIndexMenuAeVO queryByAndIndexId(Long id) {
         UserAccount userAccount = UserAccountUtils.getUserAccount();
         if (userAccount==null){
             throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
         }
-        List<QueryIndexMenuAeVO> queryIndexMenuAeVOList=new ArrayList<>();
         MenuAe menuAe = menuAeMapper.selectByPrimaryKey(id);
         if (menuAe!=null){
             QueryIndexMenuAeVO queryIndexMenuAeVO=new QueryIndexMenuAeVO();
             BeanUtils.copyProperties(menuAe,queryIndexMenuAeVO);
             List<Long>list=new LinkedList<>();
             list.add(menuAe.getId());
+            //查询评论相关
             List<MenuEvaluate> menuEvaluates = menuEvaluateMapper.queryByMenuId(list);
-
-            BigDecimal  countBig=BigDecimal.ZERO;
-            for (MenuEvaluate y:menuEvaluates) {
-                countBig=countBig.add(BigDecimal.valueOf(y.getMenuEvaluateScore()));
+            if (menuEvaluates!=null&&menuEvaluates.size()>0){
+                BigDecimal  countBig=BigDecimal.ZERO;
+                for (MenuEvaluate y:menuEvaluates) {
+                    countBig=countBig.add(BigDecimal.valueOf(y.getMenuEvaluateScore()));
+                }
+                countBig= countBig.divide(BigDecimal.valueOf(menuEvaluates.size()));
+                menuAe.setMenuEvaluateScore(countBig.intValue());
+                queryIndexMenuAeVO.setMenuEvaluateScore(countBig.intValue());
             }
-            countBig= countBig.divide(BigDecimal.valueOf(menuEvaluates.size()));
-            menuAe.setMenuEvaluateScore(countBig.intValue());
             //查询本人相关评论
-            List<MenuEvaluate> menuEvaluates1 = menuEvaluateMapper.selectByMenuIdAndUserId(menuAe.getId(), userAccount.getId());
+            List<MenuEvaluate> menuEvaluates1 = menuEvaluateMapper.selectByMenuIdAndUserId(menuAe.getId(), userAccount.getId(),null);
             if (menuEvaluates1!=null&&menuEvaluates1.size()>0){
                 MenuEvaluate menuEvaluate = menuEvaluates1.get(0);
+                MenuEvaluate menuEvaluate1 = menuEvaluateMapper.selectByParentKey(menuEvaluate.getId());
+                if (menuEvaluate1!=null){
+                    List<QueryMenuEvaluateDetailVO> queryMenuEvaluateDetailVOS=new ArrayList<>();
+                    QueryMenuEvaluateDetailVO queryMenuEvaluateDetailVO=new QueryMenuEvaluateDetailVO();
+                    BeanUtils.copyProperties(menuEvaluate1,queryMenuEvaluateDetailVO);
+                    queryMenuEvaluateDetailVOS.add(queryMenuEvaluateDetailVO);
+                    queryIndexMenuAeVO.setQueryMenuEvaluateDetailVOS(queryMenuEvaluateDetailVOS);
+                }
                 queryIndexMenuAeVO.setMenuEvaluate(menuEvaluate);
             }
-            queryIndexMenuAeVO.setMenuEvaluateScore(countBig.intValue());
+            return queryIndexMenuAeVO;
         }
-        return queryIndexMenuAeVOList;
+        return null;
     }
 }

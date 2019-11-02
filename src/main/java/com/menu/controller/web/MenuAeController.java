@@ -4,11 +4,13 @@ import com.github.pagehelper.PageInfo;
 import com.menu.bean.MenuAe;
 import com.menu.service.MenuAeService;
 import com.menu.util.ResultData;
+import com.menu.vo.QueryIndexMenuAeVO;
 import com.menu.vo.QueryMenuAeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author
@@ -41,11 +43,11 @@ public class MenuAeController {
     /**
      * 菜品详情
      */
-    @PostMapping(value = "/queryById")
-    public ResultData<MenuAe>   queryById(@RequestParam(value = "id",required = true)Long id){
-        ResultData<MenuAe> resultData=new ResultData<>();
-        MenuAe menuAe = menuAeService.queryById(id);
-        resultData.setData(menuAe);
+    @PostMapping(value = "/queryByAndIndexId")
+    public ResultData<QueryIndexMenuAeVO>   queryByAndIndexId(@RequestParam(value = "id",required = true)Long id){
+        ResultData<QueryIndexMenuAeVO> resultData=new ResultData<>();
+        QueryIndexMenuAeVO queryIndexMenuAeVO = menuAeService.queryByAndIndexId(id);
+        resultData.setData(queryIndexMenuAeVO);
         return  resultData;
     }
 
