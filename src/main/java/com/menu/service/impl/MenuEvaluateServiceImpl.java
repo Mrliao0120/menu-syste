@@ -125,6 +125,7 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
             throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
         }
        /* MenuEvaluate menuEvaluate = menuEvaluateMapper.selectByPrimaryKey(id);*/
+        MenuEvaluate menuEvaluate = menuEvaluateMapper.selectByPrimaryKey(id);
         MenuEvaluate returnMenuEvaluate =new  MenuEvaluate();
         returnMenuEvaluate.setIsDelete(0);
         returnMenuEvaluate.setGmtCreate(new Date());
@@ -133,6 +134,7 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
         returnMenuEvaluate.setMenuType(2);
         returnMenuEvaluate.setMenuEvaluateId(id);
         returnMenuEvaluate.setUserId(userAccount.getId());
+        returnMenuEvaluate.setMenuId(menuEvaluate.getId());
         menuEvaluateMapper.insertSelective(returnMenuEvaluate);
 
 
@@ -232,6 +234,7 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
         menuEvaluate.setGmtCreate(new Date());
         menuEvaluate.setIsDelete(0);
         menuEvaluate.setMenuId(menuEvaluate.getId());
+        menuEvaluate.setId(null);
         menuEvaluateMapper.insertSelective(menuEvaluate);
     }
 

@@ -78,6 +78,10 @@ public class MenuEvaluateBackgroundController {
             throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),
                     SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
         }
+        if (accountUser1.getSystemLevel()!=1){
+            throw new ServletException(7777,
+                    "您无权限删除");
+        }
          menuEvaluateService.updateMenuEvaluate(menuEvaluate);
         return new ResultData<>();
     }

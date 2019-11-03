@@ -62,7 +62,10 @@ public class MenuAeServiceImpl implements MenuAeService {
         List<MenuAe> menuAes = menuAeMapper.queryByPageAndCondition(queryMenuAeRequest);
         PageInfo info = new PageInfo<>(objects.getResult());
         List<Long> menuAeListId = menuAes.stream().map(MenuAe::getId).collect(Collectors.toList());
-        List<MenuEvaluate> menuEvaluates = menuEvaluateMapper.queryByMenuId(menuAeListId);
+        List<MenuEvaluate> menuEvaluates=new ArrayList<>();
+        if(menuAeListId!=null&&menuAeListId.size()>0){
+           menuEvaluates = menuEvaluateMapper.queryByMenuId(menuAeListId);
+        }
         Map<Long, List<MenuEvaluate>> collect = menuEvaluates.stream().collect(Collectors.groupingBy(MenuEvaluate::getMenuId));
         menuAes.forEach(x->{
             List<MenuEvaluate> menuEvaluates1 = collect.get(x.getId());

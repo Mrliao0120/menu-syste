@@ -147,7 +147,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (userAccount.getNickname()!=null){
             userAccount1.setNickname(userAccount.getNickname());
         }
-        if (userAccount.getNewPassWord()!=null){
+        if (userAccount.getNewPassWord()!=null&&userAccount.getNewPassWord()!=""){
             if (!userAccount1.getPassword().equals(userAccount.getPassword())){
                 throw new ServletException(SystemEnum.WRONG_PASSWORD.getCode(),SystemEnum.WRONG_PASSWORD.getMsg());
             }
