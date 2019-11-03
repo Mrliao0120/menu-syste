@@ -25,6 +25,7 @@ public class UserAccount implements Serializable {
     /****/
     private Date gmtModified;
 
+    private String newPassWord;
     private static final long serialVersionUID = 1L;
 
 

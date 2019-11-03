@@ -32,4 +32,7 @@ public interface UserAccountService {
     ResultData<UserAccount>  queryUserAccountById(Long id);
 
     void  deleteById(Long id);
+
+
+    ResultData<UserAccount> updatePassWordAndNickName(UserAccount userAccount);
 }

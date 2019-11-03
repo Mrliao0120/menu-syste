@@ -36,11 +36,27 @@ public class UserAccountController {
      * @param httpServletResponse
      * @return
      */
-    @RequestMapping(value = "/userRegistered")
+    @PostMapping(value = "/userRegistered")
     public ResultData  userRegistered(@RequestBody UserAccount userAccount, HttpServletResponse httpServletResponse){
         ResultData<UserAccount> userAccountResultData = userAccountService.insertUserAccount(userAccount, httpServletResponse);
         return userAccountResultData;
     }
+
+
+    /**
+     * 用户更新
+     * @param userAccount
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/updatePassWordAndNickName")
+    public ResultData  updatePassWordAndNickName(@RequestBody UserAccount userAccount){
+        ResultData userAccountResultData = userAccountService.updatePassWordAndNickName(userAccount);
+        return userAccountResultData;
+    }
+
+
+
 
     /**
      * 用户登录

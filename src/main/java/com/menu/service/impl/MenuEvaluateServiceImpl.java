@@ -271,4 +271,22 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
         resultData.setData(info);
         return resultData;
     }
+
+    @Override
+    public void deleteEvaluate(QueryMenuEvaluateRequest queryMenuEvaluateRequest) {
+        UserAccount userAccount = UserAccountUtils.getUserAccount();
+        if (userAccount==null){
+            throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
+        }
+        MenuEvaluate menuEvaluate = menuEvaluateMapper.selectByPrimaryKey(queryMenuEvaluateRequest.getId());
+        if (menuEvaluate!=null){
+            if (menuEvaluate.getUserId().equals(userAccount.getId())){
+                MenuEvaluate menuEvaluate1=new MenuEvaluate();
+                menuEvaluate1.setId(queryMenuEvaluateRequest.getId());
+                menuEvaluate1.setIsDelete(1);
+                menuEvaluateMapper.updateByPrimaryKeySelective(menuEvaluate1);
+
+            }
+        }
+    }
 }

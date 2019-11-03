@@ -41,4 +41,7 @@ public interface MenuEvaluateService {
 
 
     ResultData<PageInfo<QueryMyEvaluateVO>>   queryMyEvaluate(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
+
+
+    void  deleteEvaluate(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
 }

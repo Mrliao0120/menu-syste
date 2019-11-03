@@ -2,6 +2,8 @@ package com.menu.controller.web;
 
 import com.github.pagehelper.PageInfo;
 import com.menu.bean.MenuEvaluate;
+import com.menu.enums.SystemEnum;
+import com.menu.exeception.ServletException;
 import com.menu.service.MenuEvaluateService;
 import com.menu.util.ResultData;
 import com.menu.vo.QueryMenuEvaluateDetailVO;
@@ -65,6 +67,21 @@ public class MenuEvaluateController {
     public ResultData<PageInfo<QueryMyEvaluateVO>>  queryMyEvaluate(@RequestBody QueryMenuEvaluateRequest queryMenuEvaluateRequest){
         ResultData<PageInfo<QueryMyEvaluateVO>> pageInfoResultData = menuEvaluateService.queryMyEvaluate(queryMenuEvaluateRequest);
         return pageInfoResultData;
+    }
+
+
+    /**
+     * 删除我的评价
+     * @param queryMenuEvaluateRequest
+     * @return
+     */
+    @PostMapping(value = "/deleteMyEvaluate")
+    public ResultData<PageInfo<QueryMyEvaluateVO>>  deleteMyEvaluate(@RequestBody QueryMenuEvaluateRequest queryMenuEvaluateRequest){
+        if (queryMenuEvaluateRequest==null||queryMenuEvaluateRequest.getId()==null){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+        menuEvaluateService.deleteEvaluate(queryMenuEvaluateRequest);
+        return new ResultData<>();
     }
 
 

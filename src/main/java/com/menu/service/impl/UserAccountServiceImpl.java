@@ -131,4 +131,31 @@ public class UserAccountServiceImpl implements UserAccountService {
         userAccount.setIsDelete(1);
         userAccountMapper.updateByPrimaryKeySelective(userAccount);
     }
+
+    @Override
+    public ResultData updatePassWordAndNickName(UserAccount userAccount) {
+        UserAccount userAccount1 = UserAccountUtils.getUserAccount();
+        if (userAccount1==null){
+            throw new ServletException(SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getCode(),SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getMsg());
+        }
+        if (userAccount==null){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+        if (userAccount.getNewPassWord()!=null&&userAccount.getPassword()==null){
+            throw new ServletException(SystemEnum.THE_PARAMETER_IS_INCORRECT.getCode(),SystemEnum.THE_PARAMETER_IS_INCORRECT.getMsg());
+        }
+        if (userAccount.getNickname()!=null){
+            userAccount1.setNickname(userAccount.getNickname());
+        }
+        if (userAccount.getNewPassWord()!=null){
+            if (!userAccount1.getPassword().equals(userAccount.getPassword())){
+                throw new ServletException(SystemEnum.WRONG_PASSWORD.getCode(),SystemEnum.WRONG_PASSWORD.getMsg());
+            }
+            userAccount1.setPassword(userAccount.getPassword());
+        }
+
+        userAccountMapper.updateByPrimaryKeySelective(userAccount1);
+
+        return new ResultData<>();
+    }
 }
