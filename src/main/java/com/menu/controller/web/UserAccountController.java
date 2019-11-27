@@ -3,6 +3,8 @@ package com.menu.controller.web;
 import com.menu.bean.UserAccount;
 import com.menu.service.UserAccountService;
 import com.menu.util.ResultData;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RequestMapping(value = "/user")
 @RestController
+@Api(value = "用户相关API")
 public class UserAccountController {
 
     @Autowired
@@ -50,6 +53,7 @@ public class UserAccountController {
      * @return
      */
     @PostMapping(value = "/updatePassWordAndNickName")
+    @ApiOperation(value = "用户更新接口")
     public ResultData  updatePassWordAndNickName(@RequestBody UserAccount userAccount){
         ResultData userAccountResultData = userAccountService.updatePassWordAndNickName(userAccount);
         return userAccountResultData;
@@ -65,6 +69,7 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/login")
+    @ApiOperation(value = "用户登录接口-返回值会有token 请缓存下来 每次接口需要再Heard中传入token")
     public ResultData  login(@RequestBody UserAccount userAccount, HttpServletResponse httpServletResponse){
         ResultData<UserAccount> login = userAccountService.login(userAccount, httpServletResponse);
         return login;
@@ -78,6 +83,7 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/loginOut")
+    @ApiOperation(value = "用户退出接口")
     public ResultData  loginOut(){
         ResultData login = userAccountService.loginOut();
         return login;
@@ -90,6 +96,7 @@ public class UserAccountController {
      * @return
      */
     @PostMapping(value = "/queryToken")
+    @ApiOperation(value = "检测token接口")
     public ResultData queryToken(HttpServletRequest httpServletRequest){
         ResultData resultData=new ResultData();
         String backgroundToken = httpServletRequest.getHeader("token");

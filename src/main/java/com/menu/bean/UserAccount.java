@@ -2,19 +2,25 @@ package com.menu.bean;
 
 import com.menu.enums.SystemEnum;
 import com.menu.exeception.ServletException;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@ApiModel(value = "用户信息")
 public class UserAccount implements Serializable {
     private Long id;
     /**用户账号**/
+    @ApiModelProperty(value = "用户账号")
     private String username;
     /**密码**/
+    @ApiModelProperty(value = "密码")
     private String password;
     /**昵称**/
+    @ApiModelProperty(value = "昵称")
     private String nickname;
     /**是否删除**/
     private Integer isDelete;
@@ -24,7 +30,7 @@ public class UserAccount implements Serializable {
     private Date gmtCreate;
     /****/
     private Date gmtModified;
-
+    @ApiModelProperty(value = "新密码")
     private String newPassWord;
     private static final long serialVersionUID = 1L;
 
