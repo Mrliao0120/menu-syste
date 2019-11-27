@@ -47,7 +47,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         userAccount.checkInsertParameter(userAccount);
         UserAccount userAccount1 = userAccountMapper.selectByUserName(userAccount.getUsername());
         if (userAccount1!=null){
-            throw new ServletException(SystemEnum.ACCOUNT_ALREADY_EXISTS.getCode(),SystemEnum.ACCOUNT_ALREADY_NO_EXISTS.getMsg());
+            throw new ServletException(SystemEnum.ACCOUNT_ALREADY_EXISTS.getCode(),SystemEnum.ACCOUNT_ALREADY_EXISTS.getMsg());
         }
         ResultData<UserAccount> resultData=new ResultData<>();
         userAccount.setId(null);
