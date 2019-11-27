@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RequestMapping(value = "/menu")
 @RestController
-@Api(value = "菜品相关API")
+@Api(value = "菜品相关API",description = "菜品相关API")
 public class MenuAeController {
 
 
