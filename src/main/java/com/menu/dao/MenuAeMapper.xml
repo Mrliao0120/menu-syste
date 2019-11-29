@@ -184,6 +184,12 @@
     <if test="menuName!=null and menuName!=''">
         AND  menu_name  LIKE concat( '%',#{menuName},'%')
     </if>
+    <if test="getLatitude!=null">
+      <![CDATA[#{getLatitude}<= x_coord]]>
+    </if>
+    <if test="getLongitude!=null">
+      <![CDATA[#{getLongitude}>=y_coord]]>
+    </if>
     <if test="createUserId!=null">
       AND  create_user_id=#{createUserId}
     </if>

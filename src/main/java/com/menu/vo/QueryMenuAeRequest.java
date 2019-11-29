@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * @author lhb
  * @Title:
@@ -25,7 +27,10 @@ public class QueryMenuAeRequest extends AbstractPageRequest {
 
     @ApiModelProperty(value = "创建用户id")
    private Long  createUserId;
-
+    @ApiModelProperty(value = "纬度")
+   private String getLatitude;
+    @ApiModelProperty(value = "经度")
+    private String getLongitude;
 
 
 }

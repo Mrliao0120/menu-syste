@@ -48,9 +48,9 @@ public class MenuAe implements Serializable {
     /**评分**/
     @ApiModelProperty(value = "评分")
     private Integer menuEvaluateScore;
-    @ApiModelProperty(value = "X坐标")
+    @ApiModelProperty(value = "纬度")
     private String xCoord;
-    @ApiModelProperty(value = "Y坐标")
+    @ApiModelProperty(value = "经度")
     private String yCoord;
 
     private static final long serialVersionUID = 1L;
