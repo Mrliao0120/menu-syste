@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping(value = "/menuEvaluate")
 @RestController
-@Api(value = "菜品评价相关API")
+@Api(value = "菜品评价相关API",description = "菜品评价相关API")
 public class MenuEvaluateController {
 
     @Autowired

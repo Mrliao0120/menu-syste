@@ -30,7 +30,7 @@ public class SwaggerConfig {
 
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("格林豪泰小程序 API").description("适用本次系统API")
+        return new ApiInfoBuilder().title("菜单系统小程序 API").description("适用本次系统API")
             .termsOfServiceUrl("").contact("---")
             .license("Version 1.0").licenseUrl("#").version("1.0")
             .build();
