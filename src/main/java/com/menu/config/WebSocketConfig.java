@@ -15,6 +15,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
  * @Description: TODO
  * @Date create in 9:13 2019/11/3
  */
+/*
 @Configuration
 public class WebSocketConfig  {
 
@@ -26,3 +27,4 @@ public class WebSocketConfig  {
 
 
 }
+*/
