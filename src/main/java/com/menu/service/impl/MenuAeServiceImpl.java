@@ -174,4 +174,10 @@ public class MenuAeServiceImpl implements MenuAeService {
         }
         return null;
     }
+
+    @Override
+    public List<MenuAe> findMenuAeLimit5() {
+        List<MenuAe> menuAeLimit5 = menuAeMapper.findMenuAeLimit5();
+        return menuAeLimit5;
+    }
 }

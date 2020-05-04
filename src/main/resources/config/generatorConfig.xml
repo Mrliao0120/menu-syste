@@ -14,11 +14,12 @@
       <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
       <property name="suppressAllComments" value="true" />
     </commentGenerator>
-    <!--数据库链接URL，用户名、密码  jdbc:jtds:sqlserver://47.104.150.166:10601;DatabaseName=website-->
+
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                    connectionURL="jdbc:mysql://47.104.148.70:3306/qqddc?useSSL=false" userId="root"
-                    password="abc-123!@#">
+                    connectionURL="jdbc:mysql://localhost:3306/menu?useSSL=false" userId="root"
+                    password="123456">
     </jdbcConnection>
+
     <javaTypeResolver>
       <!-- This property is used to specify whether MyBatis Generator should
           force the use of java.math.BigDecimal for DECIMAL and NUMERIC fields, -->
@@ -46,8 +47,8 @@
 
    <!-- <table tableName="movie_box" domainObjectName="MovieDO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
    -->
-    <table tableName="city" domainObjectName="CityDO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
-    <table tableName="province" domainObjectName="ProvinceDO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+    <table tableName="news_info" domainObjectName="NewsInfoDO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+    <table tableName="weather_info" domainObjectName="WeatherInfoDO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
 
   </context>
 </generatorConfiguration>

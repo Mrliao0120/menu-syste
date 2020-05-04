@@ -61,6 +61,15 @@ public class MenuAeController {
 
 
 
-
+    /**
+     * 图片
+     */
+    @PostMapping(value = "/findMenuAeLimit5")
+    public ResultData<List<MenuAe>>   findMenuAeLimit5(){
+        ResultData<List<MenuAe>> resultData=new ResultData<>();
+        List<MenuAe> menuAeLimit5 = menuAeService.findMenuAeLimit5();
+        resultData.setData(menuAeLimit5);
+        return  resultData;
+    }
 
 }

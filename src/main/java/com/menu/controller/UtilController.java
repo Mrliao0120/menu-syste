@@ -16,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ProjectName menu-system
@@ -100,6 +102,41 @@ public class UtilController {
         return;
     }
 
+
+
+    @PostMapping(value = "/uploadFileRichText")
+    public Map uploadFileRichText(@RequestParam("file") CommonsMultipartFile file){
+        Map map=new HashMap();
+        if (file.isEmpty()) {
+            map.put("msg","上传失败");
+            map.put("code","202");
+            return map;
+        }
+        long fileTime = System.currentTimeMillis();
+        try {
+            //所在文件夹
+            String path=upload+"/";
+            //文件全路径
+            String filte=path+fileTime+file.getOriginalFilename();
+            File newFile=new File(filte);
+            if(!newFile.exists()){
+                newFile.mkdirs();
+            }
+            //拷贝   spring封装方法  相当于上传
+            file.transferTo(newFile);
+            Map map2=new HashMap();
+            map2.put("src","//localhost:3535/util/queryLocalHostImage?pathName="+filte);
+            map2.put("title",fileTime+file.getOriginalFilename());
+            map.put("data",map2);
+            map.put("code",0);
+            map.put("msg","上传成功");
+            return map;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 
 }

@@ -217,4 +217,12 @@
       #{item}
   </foreach>
   </select>
+
+
+  <select id="findMenuAeLimit5" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu_ae
+    where  is_delete=0 ORDER by  gmt_create DESC   limit 5
+  </select>
 </mapper>

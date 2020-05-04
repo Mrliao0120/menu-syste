@@ -38,4 +38,7 @@ public interface MenuAeService {
 
 
         QueryIndexMenuAeVO queryByAndIndexId(Long id);
+
+
+        List<MenuAe>  findMenuAeLimit5();
 }

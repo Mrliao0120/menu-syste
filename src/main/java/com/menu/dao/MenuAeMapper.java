@@ -29,4 +29,7 @@ public interface MenuAeMapper {
 
 
     List<MenuAe>  queryByIds(@Param("asList")List<Long> ids);
+
+
+    List<MenuAe>  findMenuAeLimit5();
 }

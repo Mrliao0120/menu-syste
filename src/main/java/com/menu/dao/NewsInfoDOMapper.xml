@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.menu.dao.NewsInfoDOMapper" >
+  <resultMap id="BaseResultMap" type="com.menu.bean.NewsInfoDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="content_info" property="contentInfo" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="cover_img" property="coverImg" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, content_info, title, cover_img, is_delete, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from news_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.menu.bean.NewsInfoDO" >
+    insert into news_info (id, content_info, title, 
+      cover_img, is_delete, gmt_create, 
+      gmt_modified)
+    values (#{id,jdbcType=INTEGER}, #{contentInfo,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{coverImg,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.menu.bean.NewsInfoDO" >
+    insert into news_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="contentInfo != null" >
+        content_info,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="coverImg != null" >
+        cover_img,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="contentInfo != null" >
+        #{contentInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImg != null" >
+        #{coverImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.menu.bean.NewsInfoDO" >
+    update news_info
+    <set >
+      <if test="contentInfo != null and contentInfo!=''" >
+        content_info = #{contentInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImg != null and coverImg!=''" >
+        cover_img = #{coverImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.menu.bean.NewsInfoDO" >
+    update news_info
+    set content_info = #{contentInfo,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      cover_img = #{coverImg,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findPage" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from news_info
+    where is_delete=0
+    <if test="title!=null">
+     AND title  LIKE concat( '%',#{title},'%')
+    </if>
+  </select>
+
+  <select id="findPageLimit8" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from news_info
+    where is_delete=0
+    <if test="title!=null">
+      AND title  LIKE concat( '%',#{title},'%')
+    </if>
+    ORDER BY  RAND() LIMIT 12
+  </select>
+</mapper>

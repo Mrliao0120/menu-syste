@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.menu.dao.WeatherInfoDOMapper" >
+  <resultMap id="BaseResultMap" type="com.menu.bean.WeatherInfoDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="lat" property="lat" jdbcType="VARCHAR" />
+    <result column="lon" property="lon" jdbcType="VARCHAR" />
+    <result column="parent_city" property="parentCity" jdbcType="VARCHAR" />
+    <result column="admin_area" property="adminArea" jdbcType="VARCHAR" />
+    <result column="cnty" property="cnty" jdbcType="VARCHAR" />
+    <result column="tz" property="tz" jdbcType="VARCHAR" />
+    <result column="fl" property="fl" jdbcType="VARCHAR" />
+    <result column="tmp" property="tmp" jdbcType="VARCHAR" />
+    <result column="cond_txt" property="condTxt" jdbcType="VARCHAR" />
+    <result column="wind_deg" property="windDeg" jdbcType="VARCHAR" />
+    <result column="wind_dir" property="windDir" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, location, cid, lat, lon, parent_city, admin_area, cnty, tz, fl, tmp, cond_txt, 
+    wind_deg, wind_dir, is_delete, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from weather_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from weather_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.menu.bean.WeatherInfoDO" >
+    insert into weather_info (id, location, cid, 
+      lat, lon, parent_city, 
+      admin_area, cnty, tz, 
+      fl, tmp, cond_txt, wind_deg, 
+      wind_dir, is_delete, gmt_create, 
+      gmt_modified)
+    values (#{id,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, 
+      #{lat,jdbcType=VARCHAR}, #{lon,jdbcType=VARCHAR}, #{parentCity,jdbcType=VARCHAR}, 
+      #{adminArea,jdbcType=VARCHAR}, #{cnty,jdbcType=VARCHAR}, #{tz,jdbcType=VARCHAR}, 
+      #{fl,jdbcType=VARCHAR}, #{tmp,jdbcType=VARCHAR}, #{condTxt,jdbcType=VARCHAR}, #{windDeg,jdbcType=VARCHAR}, 
+      #{windDir,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.menu.bean.WeatherInfoDO" >
+    insert into weather_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+      <if test="lon != null" >
+        lon,
+      </if>
+      <if test="parentCity != null" >
+        parent_city,
+      </if>
+      <if test="adminArea != null" >
+        admin_area,
+      </if>
+      <if test="cnty != null" >
+        cnty,
+      </if>
+      <if test="tz != null" >
+        tz,
+      </if>
+      <if test="fl != null" >
+        fl,
+      </if>
+      <if test="tmp != null" >
+        tmp,
+      </if>
+      <if test="condTxt != null" >
+        cond_txt,
+      </if>
+      <if test="windDeg != null" >
+        wind_deg,
+      </if>
+      <if test="windDir != null" >
+        wind_dir,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lon != null" >
+        #{lon,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCity != null" >
+        #{parentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="adminArea != null" >
+        #{adminArea,jdbcType=VARCHAR},
+      </if>
+      <if test="cnty != null" >
+        #{cnty,jdbcType=VARCHAR},
+      </if>
+      <if test="tz != null" >
+        #{tz,jdbcType=VARCHAR},
+      </if>
+      <if test="fl != null" >
+        #{fl,jdbcType=VARCHAR},
+      </if>
+      <if test="tmp != null" >
+        #{tmp,jdbcType=VARCHAR},
+      </if>
+      <if test="condTxt != null" >
+        #{condTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="windDeg != null" >
+        #{windDeg,jdbcType=VARCHAR},
+      </if>
+      <if test="windDir != null" >
+        #{windDir,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.menu.bean.WeatherInfoDO" >
+    update weather_info
+    <set >
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lon != null" >
+        lon = #{lon,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCity != null" >
+        parent_city = #{parentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="adminArea != null" >
+        admin_area = #{adminArea,jdbcType=VARCHAR},
+      </if>
+      <if test="cnty != null" >
+        cnty = #{cnty,jdbcType=VARCHAR},
+      </if>
+      <if test="tz != null" >
+        tz = #{tz,jdbcType=VARCHAR},
+      </if>
+      <if test="fl != null" >
+        fl = #{fl,jdbcType=VARCHAR},
+      </if>
+      <if test="tmp != null" >
+        tmp = #{tmp,jdbcType=VARCHAR},
+      </if>
+      <if test="condTxt != null" >
+        cond_txt = #{condTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="windDeg != null" >
+        wind_deg = #{windDeg,jdbcType=VARCHAR},
+      </if>
+      <if test="windDir != null" >
+        wind_dir = #{windDir,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.menu.bean.WeatherInfoDO" >
+    update weather_info
+    set location = #{location,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      lon = #{lon,jdbcType=VARCHAR},
+      parent_city = #{parentCity,jdbcType=VARCHAR},
+      admin_area = #{adminArea,jdbcType=VARCHAR},
+      cnty = #{cnty,jdbcType=VARCHAR},
+      tz = #{tz,jdbcType=VARCHAR},
+      fl = #{fl,jdbcType=VARCHAR},
+      tmp = #{tmp,jdbcType=VARCHAR},
+      cond_txt = #{condTxt,jdbcType=VARCHAR},
+      wind_deg = #{windDeg,jdbcType=VARCHAR},
+      wind_dir = #{windDir,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="fingPage" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from weather_info
+    where    is_delete=0
+    <if test="location!=null">
+      AND location    like   concat( '%',#{location},'%')
+    </if>
+    order by  gmt_create desc
+
+  </select>
+
+
+  <select id="selectLimit1" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from weather_info
+    where is_delete=0 AND  location=#{location} and to_days(gmt_create) = to_days(#{gmtCreate})   limit 1
+  </select>
+</mapper>
