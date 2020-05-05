@@ -111,7 +111,7 @@ public class WeatherInfoController {
                 }
                 weatherInfoDO.setGmtCreate(new Date());
                 weatherInfoDOMapper.insertSelective(weatherInfoDO);
-                resultData.setData(now);
+                resultData.setData(weatherInfoDO);
             }
         }
         return resultData;

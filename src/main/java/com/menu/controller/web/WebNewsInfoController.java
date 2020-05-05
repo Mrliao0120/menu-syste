@@ -45,6 +45,13 @@ public class WebNewsInfoController {
     }
 
 
+    @PostMapping(value = "/findList")
+    public ResultData<List<NewsInfoDO>>  findList(@RequestBody NewsInfoDO weatherInfoDO){
+        ResultData<List<NewsInfoDO>> resultData=new ResultData<>();
+        List<NewsInfoDO> weatherInfoDOS = newsInfoDOMapper.findList(weatherInfoDO);
+        resultData.setData(weatherInfoDOS);
+        return resultData;
+    }
 
 
 

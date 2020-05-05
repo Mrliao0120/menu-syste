@@ -25,4 +25,7 @@ public interface NewsInfoDOMapper {
 
 
     List<NewsInfoDO>   findPageLimit8(NewsInfoDO newsInfoDO);
+
+
+    List<NewsInfoDO>   findList(NewsInfoDO newsInfoDO);
 }

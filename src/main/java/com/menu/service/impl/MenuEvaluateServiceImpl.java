@@ -91,6 +91,25 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
     }
 
     @Override
+    public ResultData<PageInfo<MenuEvaluate>> queryPage(QueryMenuEvaluateRequest queryMenuEvaluateRequest) {
+        AccountUser userAccount = AccountUserUtils.getUserAccount();
+        if (userAccount==null){
+            throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
+        }
+        Page<MenuEvaluate> objects = PageHelper.startPage(queryMenuEvaluateRequest.getCurrPage(), queryMenuEvaluateRequest.getPageSize());
+        if (queryMenuEvaluateRequest.getOrderBy()==null||queryMenuEvaluateRequest.getOrderBy()==""){
+            PageHelper.orderBy("gmt_create desc");
+        }
+        queryMenuEvaluateRequest.setCreateUserId(userAccount.getId());
+        List<MenuEvaluate> menuEvaluates = menuEvaluateMapper.queryPage(queryMenuEvaluateRequest);
+        ResultData<PageInfo<MenuEvaluate>> resultData=new ResultData<>();
+        PageInfo info = new PageInfo<>(objects.getResult());
+        info.setList(menuEvaluates);
+        resultData.setData(info);
+        return resultData;
+    }
+
+    @Override
     public ResultData<QueryMenuEvaluateDetailVO> queryMenuEvaluateDetail(Long id) {
         ResultData<QueryMenuEvaluateDetailVO> resultData=new ResultData<>();
         QueryMenuEvaluateDetailVO queryMenuEvaluateDetailVO=new QueryMenuEvaluateDetailVO();
@@ -224,11 +243,11 @@ public class MenuEvaluateServiceImpl implements MenuEvaluateService{
 
     @Override
     public void addMenuEvaluate(MenuEvaluate menuEvaluate) {
-        UserAccount userAccount = UserAccountUtils.getUserAccount();
+        /*UserAccount userAccount = UserAccountUtils.getUserAccount();
         if (userAccount==null){
             throw new ServletException(SystemEnum.ACCOUNT_NOT_LOGGED_IN.getCode(),SystemEnum.ACCOUNT_NOT_LOGGED_IN.getMsg());
-        }
-        menuEvaluate.setUserId(userAccount.getId());
+        }*/
+       // menuEvaluate.setUserId(userAccount.getId());
         menuEvaluate.setIsRootReply(0);
         menuEvaluate.setMenuType(1);
         menuEvaluate.setGmtCreate(new Date());

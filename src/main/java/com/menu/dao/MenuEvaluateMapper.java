@@ -41,4 +41,6 @@ public interface MenuEvaluateMapper {
     List<MenuEvaluate> selectMenuAndMenuName(@Param("menuId") Long menuId,@Param("userId") Long userId,@Param("evaluateName")String evaluateName);
 
 
+    List<MenuEvaluate>  queryPage(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
+
 }

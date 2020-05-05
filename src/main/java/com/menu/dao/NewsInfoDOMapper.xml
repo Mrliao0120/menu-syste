@@ -114,17 +114,15 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
   <select id="findPage" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
     from news_info
     where is_delete=0
     <if test="title!=null">
-     AND title  LIKE concat( '%',#{title},'%')
+      AND title  LIKE concat( '%',#{title},'%')
     </if>
   </select>
-
   <select id="findPageLimit8" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
@@ -133,6 +131,17 @@
     <if test="title!=null">
       AND title  LIKE concat( '%',#{title},'%')
     </if>
-    ORDER BY  RAND() LIMIT 12
+    ORDER BY  RAND() LIMIT 10
+  </select>
+
+  <select id="findList" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from news_info
+    where is_delete=0
+    <if test="title!=null">
+      AND title  LIKE concat( '%',#{title},'%')
+    </if>
+
   </select>
 </mapper>

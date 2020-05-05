@@ -23,7 +23,8 @@ public interface MenuEvaluateService {
 
     //分页查询
     ResultData<PageInfo<QueryMenuEvaluateVO>>  queryPageByCondition(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
-
+    //分页查询
+    ResultData<PageInfo<MenuEvaluate>>  queryPage(QueryMenuEvaluateRequest queryMenuEvaluateRequest);
     //查看回复详情
     ResultData<QueryMenuEvaluateDetailVO>   queryMenuEvaluateDetail(Long  id);
 

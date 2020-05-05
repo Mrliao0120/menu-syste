@@ -41,7 +41,16 @@ public class MenuEvaluateBackgroundController {
         return resultData;
     }
 
-
+    /**
+     * 分页查询回复
+     * @param queryMenuEvaluateRequest
+     * @return
+     */
+    @PostMapping(value = "/queryPage")
+    public  ResultData<PageInfo<MenuEvaluate>>   queryPage(@RequestBody QueryMenuEvaluateRequest  queryMenuEvaluateRequest){
+        ResultData<PageInfo<MenuEvaluate>> resultData = menuEvaluateService.queryPage(queryMenuEvaluateRequest);
+        return resultData;
+    }
 
     /**
      * 查看评论详情

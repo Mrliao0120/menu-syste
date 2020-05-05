@@ -241,4 +241,15 @@
   </select>
 
 
+
+
+  <select id="queryPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from menu_evaluate as m2
+    where m2.is_delete=0 and m2.menu_type=1
+    <if test="menuName!=null">
+      AND m1.menu_name    LIKE concat( '%',#{menuName},'%')
+    </if>
+  </select>
 </mapper>
